@@ -11,7 +11,8 @@
         Dairy,
         Oil,
         Nuts,
-        Beverage
+        Beverage,
+        Egg
 
     }
 }

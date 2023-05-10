@@ -1,5 +1,6 @@
 ﻿using FoodLogger.Data.Enum;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using static FoodLogger.Data.DataConstants;
 
 namespace FoodLogger.Data.Models
@@ -28,6 +29,7 @@ namespace FoodLogger.Data.Models
         [Range(FatMinValue, FatMaxValue)]
         public double Fat { get; set; }
 
+        [ForeignKey("FoodCategory")]
         public int CategoryId { get; set; }
 
         public FoodCategory FoodCategory { get; set; }

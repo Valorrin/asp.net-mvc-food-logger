@@ -57,7 +57,7 @@ namespace FoodLogger.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Foods");
+                    b.ToTable("Foods", (string)null);
                 });
 #pragma warning restore 612, 618
         }
