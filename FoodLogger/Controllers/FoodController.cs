@@ -1,4 +1,5 @@
 ﻿using FoodLogger.Data;
+using FoodLogger.Data.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FoodLogger.Controllers
@@ -15,6 +16,12 @@ namespace FoodLogger.Controllers
         {
             var foods = context.Foods.ToList();
             return View(foods);
+        }
+
+        public IActionResult Detail(int id)
+        {
+            Food food = context.Foods.FirstOrDefault(f => f.Id == id);
+            return View(food);
         }
     }
 }

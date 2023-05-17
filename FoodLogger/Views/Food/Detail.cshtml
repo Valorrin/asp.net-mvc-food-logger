@@ -1,0 +1,57 @@
+﻿@model Food
+
+<section class="performance-facts">
+    <header class="performance-facts__header">
+        <h1 class="performance-facts__title">Nutrition Facts</h1>
+    </header>
+    <table class="performance-facts__table">
+        <thead>
+            <tr>
+                <th colspan="3" class="small-info">
+                    Per 100g
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <th colspan="2">
+                    <b>Calories</b>
+                    @Model.Calories
+                </th>
+            </tr>
+            <tr class="thick-row">
+            </tr>
+            <tr>
+                <th colspan="2">
+                    <b>Fat</b>
+                    @Model.Fat
+                </th>
+            </tr>
+            <tr>
+                <td class="blank-cell">
+                </td>
+            </tr>
+            <tr>
+                <td class="blank-cell">
+                </td>
+                <td>
+                </td>
+            </tr>
+            <tr>
+                <th colspan="2">
+                    <b>Carbohydrate</b>
+                    @Model.Carbs
+                </th>
+            </tr>
+            <tr class="thick-end">
+                <th colspan="2">
+                    <b>Protein</b>
+                    @Model.Protein
+                </th>
+                <td>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+</section>

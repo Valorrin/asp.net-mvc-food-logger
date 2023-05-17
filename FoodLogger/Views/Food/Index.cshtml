@@ -1,9 +1,8 @@
-﻿@using FoodLogger.Data.Models;
-@model IEnumerable<Food>
+﻿@model IEnumerable<Food>
 
 <div class="list-group">
     @foreach(var food in Model)
     {
-        <button type="button" class="list-group-item list-group-item-action">@food.Name</button>
+        <a type="btn btn-success" asp-controller="Food" asp-action="Detail" asp-route-id="@food.Id" class="list-group-item list-group-item-action">@food.Name</a>
     }
 </div>
