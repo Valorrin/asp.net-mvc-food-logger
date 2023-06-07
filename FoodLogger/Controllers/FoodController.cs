@@ -1,26 +1,30 @@
 ﻿using FoodLogger.Data;
 using FoodLogger.Data.Models;
+using FoodLogger.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FoodLogger.Controllers
 {
     public class FoodController : Controller
     {
-        private readonly ApplicationDbContext context;
+        private readonly IFoodRepository foodRepository;
 
-        public FoodController(ApplicationDbContext context)
+        public FoodController(IFoodRepository foodRepository)
         {
-            this.context = context;
+            this.foodRepository = foodRepository;
         }
-        public IActionResult Index()
+
+        public async Task<IActionResult> Index()
         {
-            var foods = context.Foods.ToList();
+            var foods = await foodRepository.GetAll();
+
             return View(foods);
         }
 
-        public IActionResult Detail(int id)
+        public async Task<IActionResult> Detail(int id)
         {
-            Food food = context.Foods.FirstOrDefault(f => f.Id == id);
+            var food = await foodRepository.GetById(id);
+
             return View(food);
         }
     }
