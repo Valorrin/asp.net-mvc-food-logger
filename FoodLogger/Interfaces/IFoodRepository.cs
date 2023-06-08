@@ -4,18 +4,21 @@ namespace FoodLogger.Interfaces
 {
     public interface IFoodRepository
     {
-        Task<IEnumerable<Food>> GetAll();
+        public bool Create(Food food);
 
-        Task<Food> GetById(int id);
 
-        bool Create(Food food);
+        public bool Delete(Food food);
 
-        bool Update(Food food);
 
-        bool Delete(Food food);
+        public  Task<IEnumerable<Food>> GetAll();
 
-        bool Save();
 
+        public  Task<Food> GetById(int id);
+
+        public bool Update(Food food);
+
+
+        public bool Save();
 
     }
 }

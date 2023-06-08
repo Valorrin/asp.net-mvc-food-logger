@@ -27,5 +27,23 @@ namespace FoodLogger.Controllers
 
             return View(food);
         }
+
+        public IActionResult Create()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult Create(Food food)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(food);
+            }
+
+            foodRepository.Create(food);
+
+            return RedirectToAction("Index");
+        }
     }
 }

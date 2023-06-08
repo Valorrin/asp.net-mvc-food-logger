@@ -8,6 +8,7 @@ namespace FoodLogger.Data.Models
     public class Food
     {
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
         [Required]
@@ -30,8 +31,8 @@ namespace FoodLogger.Data.Models
         public double Fat { get; set; }
 
         [ForeignKey("FoodCategory")]
-        public int CategoryId { get; set; }
+        public int? CategoryId { get; set; }
 
-        public FoodCategory FoodCategory { get; set; }
+        public virtual FoodCategory FoodCategory { get; set; }
     }
 }

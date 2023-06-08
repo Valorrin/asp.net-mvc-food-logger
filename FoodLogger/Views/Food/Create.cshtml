@@ -1,0 +1,43 @@
+﻿@using FoodLogger.Data.Enum;
+@model Food
+
+<form method="post" asp-action="Create">
+    <div class="mb-3">
+        <label asp-for="Name">Name</label>
+        <input asp-for="Name" class="form-control" placeholder="Name">
+        <span asp-validation-for="Name" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label asp-for="Grams">Grams</label>
+        <input asp-for="Grams" class="form-control" placeholder="Grams">
+        <span asp-validation-for="Grams" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label asp-for="FoodCategory">Category</label>
+        <select asp-for="FoodCategory" asp-items="@Html.GetEnumSelectList<FoodCategory>()" class="form-control">
+            <option>--Select--</option>
+        </select>
+        <span asp-validation-for="FoodCategory" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label asp-for="Calories">Calories</label>
+        <input asp-for="Calories" class="form-control" placeholder="Calories">
+        <span asp-validation-for="Calories" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label asp-for="Carbs">Carbs</label>
+        <input asp-for="Carbs" class="form-control" placeholder="Carbs">
+        <span asp-validation-for="Carbs" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label asp-for="Protein">Protein</label>
+        <input asp-for="Protein" class="form-control" placeholder="Protein">
+        <span asp-validation-for="Protein" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label asp-for="Fat">Fat</label>
+        <input asp-for="Fat" class="form-control" placeholder="Fat">
+        <span asp-validation-for="Fat" class="text-danger"></span>
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>
