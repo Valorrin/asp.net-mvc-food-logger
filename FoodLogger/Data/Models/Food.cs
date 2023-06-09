@@ -30,9 +30,6 @@ namespace FoodLogger.Data.Models
         [Range(FatMinValue, FatMaxValue)]
         public double Fat { get; set; }
 
-        [ForeignKey("FoodCategory")]
-        public int? CategoryId { get; set; }
-
-        public virtual FoodCategory FoodCategory { get; set; }
+        public  FoodCategory FoodCategory { get; set; }
     }
 }
