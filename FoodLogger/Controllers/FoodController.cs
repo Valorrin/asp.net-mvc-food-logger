@@ -29,6 +29,7 @@ namespace FoodLogger.Controllers
             return View(food);
         }
 
+        [HttpGet]
         public IActionResult Create()
         {
             return View();
@@ -92,6 +93,26 @@ namespace FoodLogger.Controllers
             };
 
             foodRepository.Update(food);
+
+            return RedirectToAction("Index");
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> Delete(int id) 
+        {
+            var food = await foodRepository.GetById(id);
+            if (food == null) { return View("Error"); }
+
+            return View(food);
+        }
+
+        [HttpPost, ActionName("Delete")]
+        public async Task<ActionResult> DeleteFood(int id)
+        {
+            var food = await foodRepository.GetById(id);
+            if (food == null) { return View("Error"); }
+
+            foodRepository.Delete(food);
 
             return RedirectToAction("Index");
         }
