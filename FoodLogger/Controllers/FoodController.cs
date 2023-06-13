@@ -71,7 +71,7 @@ namespace FoodLogger.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Edit(EditFoodViewModel foodVM)
+        public IActionResult Edit(EditFoodViewModel foodVM)
         {
             if (!ModelState.IsValid)
             {
@@ -79,7 +79,7 @@ namespace FoodLogger.Controllers
                 return View("Edit", foodVM);
             }
 
-            var food = new Food
+            var food = new  Food
             {
                 Id = foodVM.Id,
                 Name = foodVM.Name,

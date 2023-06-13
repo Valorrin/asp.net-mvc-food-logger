@@ -1,8 +1,36 @@
 ﻿@model IEnumerable<Food>
 
-<div class="list-group">
-    @foreach(var food in Model)
-    {
-        <a type="btn btn-success" asp-controller="Food" asp-action="Detail" asp-route-id="@food.Id" class="list-group-item list-group-item-action">@food.Name</a>
-    }
+
+<div class="container" >
+    <div class="row">
+        <div class="col-12">
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th scope="col">?</th>
+                        <th scope="col">Food Name</th>
+                        <th scope="col">Category</th>
+                        <th scope="col">Calories(100g)</th>
+                        <th scope="col">Actions</th>
+                    </tr>
+                </thead>
+                @foreach (var food in Model)
+                {
+                    <tbody>
+                        <tr>
+                            <th scope="row">1</th>
+                            <td>@food.Name</td>
+                            <td>@food.FoodCategory</td>
+                            <td>@food.Calories</td>
+                            <td>
+                                <a type="button" class="btn btn-sm btn btn-info" asp-controller="Food" asp-action="Detail" asp-route-id="@food.Id"><i class="far fa-eye">Detail</i></a>
+                                <a type="button" class="btn btn-sm btn btn-success" asp-controller="Food" asp-action="Edit" asp-route-id="@food.Id"><i class="fas fa-edit"></i>Edit</a>
+                                <a type="button" class="btn btn-sm btn btn-danger" asp-controller="Food" asp-action="Delete" asp-route-id="@food.Id"><i class="far fa-trash">Delete</i></a>
+                            </td>
+                        </tr>
+                    </tbody>
+                }                
+            </table>
+        </div>
+    </div>
 </div>
