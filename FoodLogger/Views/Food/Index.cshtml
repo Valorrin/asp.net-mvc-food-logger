@@ -7,18 +7,19 @@
             <table class="table table-bordered">
                 <thead>
                     <tr>
-                        <th scope="col">?</th>
+                        <th scope="col"></th>
                         <th scope="col">Food Name</th>
                         <th scope="col">Category</th>
                         <th scope="col">Calories(100g)</th>
                         <th scope="col">Actions</th>
                     </tr>
                 </thead>
+                @{int total = 1;}
                 @foreach (var food in Model)
                 {
                     <tbody>
                         <tr>
-                            <th scope="row">1</th>
+                            <th scope="row">@(total++)</th>
                             <td>@food.Name</td>
                             <td>@food.FoodCategory</td>
                             <td>@food.Calories</td>
