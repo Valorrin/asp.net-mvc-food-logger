@@ -30,7 +30,7 @@ namespace FoodLogger.Controllers
         {
             if (!ModelState.IsValid) return View(loginViewModel);
 
-            var user = await userManager.FindByEmailAsync(loginViewModel.Email);
+            var user = await userManager.FindByEmailAsync(loginViewModel.EmailAddress);
 
             if (user != null) 
             {

@@ -7,7 +7,7 @@ namespace FoodLogger.Models
     {
         [Display(Name = "Emal Address")]
         [Required(ErrorMessage = "Email address is required")]
-        public string Email { get; set; }
+        public string EmailAddress { get; set; }
         [Required]
         [DataType(DataType.Password)]
         public string Password { get; set; }
