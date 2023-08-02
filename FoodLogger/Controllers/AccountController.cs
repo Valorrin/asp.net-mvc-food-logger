@@ -19,6 +19,7 @@ namespace FoodLogger.Controllers
             this.signInManager = signInManager;
         }
 
+        [HttpGet]
         public IActionResult Login()
         {
             var response = new LoginViewModel();
@@ -41,7 +42,7 @@ namespace FoodLogger.Controllers
                     var result = await signInManager.PasswordSignInAsync(user, loginViewModel.Password, false, false);
                     if (result.Succeeded) 
                     {
-                        return RedirectToAction("Index", "Race");
+                        return RedirectToAction("Index", "Food");
                     }
                 }
                 //Incorect Password
@@ -52,5 +53,46 @@ namespace FoodLogger.Controllers
             TempData["Error"] = "Wrong credentials. Please, try again";
             return View(loginViewModel);
         }
+
+        [HttpGet]
+        public IActionResult Register()
+        {
+            var response = new RegisterViewModel();
+            return View(response);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Register(RegisterViewModel registerViewModel)
+        {
+            if (!ModelState.IsValid) return View(registerViewModel);
+
+            var user = await userManager.FindByEmailAsync(registerViewModel.EmailAddress);
+
+            if (user != null) 
+            {
+                TempData["Error"] = "This email address is already in use";
+                return View(registerViewModel);
+            }
+
+            var newUser = new AppUser()
+            {
+                Email = registerViewModel.EmailAddress,
+                UserName = registerViewModel.EmailAddress
+            };
+
+            var newUserResponse = await userManager.CreateAsync(newUser, registerViewModel.Password);
+
+            if (newUserResponse.Succeeded) await userManager.AddToRoleAsync(newUser, UserRoles.User);
+
+            return RedirectToAction("Index", "Food");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Logout()
+        {
+            await signInManager.SignOutAsync();
+            return RedirectToAction("Index", "Food");
+        }
+
     }
 }
