@@ -129,7 +129,7 @@ namespace FoodLogger.Data.Migrations
 
                     b.HasIndex("AppUserId");
 
-                    b.ToTable("Foods");
+                    b.ToTable("Foods", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>

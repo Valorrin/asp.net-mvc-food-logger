@@ -76,13 +76,14 @@ namespace FoodLogger.Controllers
 
             var newUser = new AppUser()
             {
+                Name = registerViewModel.EmailAddress,
                 Email = registerViewModel.EmailAddress,
                 UserName = registerViewModel.EmailAddress
             };
 
             var newUserResponse = await userManager.CreateAsync(newUser, registerViewModel.Password);
 
-            if (newUserResponse.Succeeded) await userManager.AddToRoleAsync(newUser, UserRoles.User);
+            if (newUserResponse.Succeeded) await userManager.AddToRoleAsync(newUser, UserRoles.Admin);
 
             return RedirectToAction("Index", "Food");
         }
