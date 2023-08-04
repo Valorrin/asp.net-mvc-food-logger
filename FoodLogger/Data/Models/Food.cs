@@ -31,5 +31,9 @@ namespace FoodLogger.Data.Models
         public double Fat { get; set; }
 
         public  FoodCategory FoodCategory { get; set; }
+
+        [ForeignKey("AppUser")]
+        public string? AppUserId { get; set; }
+        public AppUser? AppUser { get; set; }
     }
 }

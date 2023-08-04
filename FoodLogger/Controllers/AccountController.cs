@@ -83,7 +83,7 @@ namespace FoodLogger.Controllers
 
             var newUserResponse = await userManager.CreateAsync(newUser, registerViewModel.Password);
 
-            if (newUserResponse.Succeeded) await userManager.AddToRoleAsync(newUser, UserRoles.Admin);
+            if (newUserResponse.Succeeded) await userManager.AddToRoleAsync(newUser, UserRoles.User);
 
             return RedirectToAction("Index", "Food");
         }
