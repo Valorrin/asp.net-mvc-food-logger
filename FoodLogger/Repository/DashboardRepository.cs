@@ -1,25 +1,27 @@
 ﻿using FoodLogger.Data;
 using FoodLogger.Data.Models;
 using FoodLogger.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace FoodLogger.Repository
 {
     public class DashboardRepository : IDashboardRepository
     {
         private ApplicationDbContext context;
-        private DashboardRepository dashboardRepository;
         private IHttpContextAccessor httpContextAccessor;
 
-        public DashboardRepository(ApplicationDbContext context, DashboardRepository dashboardRepository, IHttpContextAccessor httpContextAccessor)
+        public DashboardRepository(ApplicationDbContext context, IHttpContextAccessor httpContextAccessor)
         {
             this.context = context;
-            this.dashboardRepository = dashboardRepository;
             this.httpContextAccessor = httpContextAccessor;
         }
 
-        public Task<List<Food>> GetAllUserFoods()
+        public async Task<List<Food>> GetAllUserFoods()
         {
-            throw new NotImplementedException();
+            var curUser = httpContextAccessor.HttpContext?.User;
+            var userFoods = context.Foods.Where(f => f.AppUser.Id == curUser.ToString());
+            
+            return userFoods.ToList();
         }
     }
 }
