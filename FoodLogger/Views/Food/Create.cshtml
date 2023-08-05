@@ -1,7 +1,8 @@
 ﻿@using FoodLogger.Data.Enum;
-@model Food
+@model CreateFoodViewModel 
 
 <form method="post" asp-action="Create">
+    <input type="hidden" id="AppUserId" name="AppUserID" asp-for="AppUserId"></input>
     <div class="mb-3">
         <label asp-for="Name">Name</label>
         <input asp-for="Name" class="form-control" placeholder="Name">

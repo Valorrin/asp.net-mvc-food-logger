@@ -1,10 +1,11 @@
 ﻿using FoodLogger.Data.Models;
+using FoodLogger.Models;
 
 namespace FoodLogger.Interfaces
 {
     public interface IFoodRepository
     {
-        public bool Create(Food food);
+        public bool Create(CreateFoodViewModel food);
 
 
         public bool Delete(Food food);

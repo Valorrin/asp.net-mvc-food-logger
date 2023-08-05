@@ -1,6 +1,7 @@
 ﻿using FoodLogger.Data;
 using FoodLogger.Data.Models;
 using FoodLogger.Interfaces;
+using FoodLogger.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace FoodLogger.Repository
@@ -14,8 +15,21 @@ namespace FoodLogger.Repository
             this.context = context;
         }
 
-        public bool Create(Food food)
+        public bool Create(CreateFoodViewModel model)
         {
+            var food = new Food 
+            {
+                Id = model.Id,
+                Name = model.Name,
+                Grams = model.Grams,
+                Calories = model.Calories,
+                Protein = model.Protein,
+                Carbs = model.Carbs,
+                Fat = model.Fat,
+                FoodCategory = model.FoodCategory,
+                AppUserId = model.AppUserId,
+            };
+
             context.Foods.Add(food);
             return Save();
         }

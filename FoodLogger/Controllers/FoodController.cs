@@ -9,10 +9,12 @@ namespace FoodLogger.Controllers
     public class FoodController : Controller
     {
         private readonly IFoodRepository foodRepository;
+        private readonly IHttpContextAccessor httpContextAccessor;
 
-        public FoodController(IFoodRepository foodRepository)
+        public FoodController(IFoodRepository foodRepository, IHttpContextAccessor httpContextAccessor)
         {
             this.foodRepository = foodRepository;
+            this.httpContextAccessor = httpContextAccessor;
         }
 
         public async Task<IActionResult> Index()
@@ -32,11 +34,13 @@ namespace FoodLogger.Controllers
         [HttpGet]
         public IActionResult Create()
         {
-            return View();
+            var curUserId = httpContextAccessor.HttpContext.User.GetUserId();
+            var createFoodViewModel = new CreateFoodViewModel { AppUserId = curUserId };
+            return View(createFoodViewModel);
         }
 
         [HttpPost]
-        public IActionResult Create(Food food)
+        public IActionResult Create(CreateFoodViewModel food)
         {
             if (!ModelState.IsValid)
             {
