@@ -18,7 +18,7 @@ namespace FoodLogger.Repository
 
         public async Task<List<Food>> GetAllUserFoods()
         {
-            var curUser = httpContextAccessor.HttpContext?.User;
+            var curUser = httpContextAccessor.HttpContext?.User.GetUserId();
             var userFoods = context.Foods.Where(f => f.AppUser.Id == curUser.ToString());
             
             return userFoods.ToList();

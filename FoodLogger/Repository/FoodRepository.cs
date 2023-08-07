@@ -15,21 +15,8 @@ namespace FoodLogger.Repository
             this.context = context;
         }
 
-        public bool Create(CreateFoodViewModel model)
+        public bool Create(Food food)
         {
-            var food = new Food 
-            {
-                Id = model.Id,
-                Name = model.Name,
-                Grams = model.Grams,
-                Calories = model.Calories,
-                Protein = model.Protein,
-                Carbs = model.Carbs,
-                Fat = model.Fat,
-                FoodCategory = model.FoodCategory,
-                AppUserId = model.AppUserId,
-            };
-
             context.Foods.Add(food);
             return Save();
         }

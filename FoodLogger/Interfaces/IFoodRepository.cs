@@ -5,7 +5,7 @@ namespace FoodLogger.Interfaces
 {
     public interface IFoodRepository
     {
-        public bool Create(CreateFoodViewModel food);
+        public bool Create(Food food);
 
 
         public bool Delete(Food food);

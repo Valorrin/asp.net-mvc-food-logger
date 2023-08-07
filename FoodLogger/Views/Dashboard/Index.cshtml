@@ -32,7 +32,7 @@
                             <td>@food.Calories</td>
                             <td>
                                 <a type="button" class="btn btn-sm btn btn-info" asp-controller="Food" asp-action="Detail" asp-route-id="@food.Id"><i class="far fa-eye">Detail</i></a>
-                                @if (User.Identity.IsAuthenticated && User.IsInRole("admin"))
+                                @if (User.Identity.IsAuthenticated)
                                 {
                                     <a type="button" class="btn btn-sm btn btn-success" asp-controller="Food" asp-action="Edit" asp-route-id="@food.Id"><i class="fas fa-edit"></i>Edit</a>
                                     <a type="button" class="btn btn-sm btn btn-danger" asp-controller="Food" asp-action="Delete" asp-route-id="@food.Id"><i class="far fa-trash">Delete</i></a>

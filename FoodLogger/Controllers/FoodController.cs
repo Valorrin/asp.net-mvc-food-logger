@@ -40,15 +40,27 @@ namespace FoodLogger.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create(CreateFoodViewModel food)
+        public IActionResult Create(CreateFoodViewModel foodVM)
         {
             if (!ModelState.IsValid)
             {
-                return View(food);
+                return View(foodVM);
             }
 
-            foodRepository.Create(food);
+            var food = new Food
+            {
+                Id = foodVM.Id,
+                Name = foodVM.Name,
+                Grams = foodVM.Grams,
+                Calories = foodVM.Calories,
+                Protein = foodVM.Protein,
+                Carbs = foodVM.Carbs,
+                Fat = foodVM.Fat,
+                FoodCategory = foodVM.FoodCategory,
+                AppUserId = foodVM.AppUserId,
+            };
 
+            foodRepository.Create(food);
             return RedirectToAction("Index");
         }
 
