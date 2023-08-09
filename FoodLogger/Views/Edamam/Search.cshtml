@@ -1,0 +1,34 @@
+﻿@model IEnumerable<FoodInfoViewModel>
+
+<div class="container" >
+    <div class="row">
+        <div class="col-12">
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th scope="col"></th>
+                        <th scope="col">Food Name</th>
+                        <th scope="col">Calories(100g)</th>
+                        <th scope="col">Protein</th>
+                        <th scope="col">Carbs</th>
+                        <th scope="col">Fat</th>
+                    </tr>
+                </thead>
+                @{int total = 1;}
+                @foreach (var food in Model)
+                {
+                    <tbody>
+                        <tr>
+                            <th scope="row">@(total++)</th>
+                            <td>@food.Name</td>
+                            <td>@food.Calories</td>
+                            <td>@food.Protein</td>
+                            <td>@food.Carbs</td>
+                            <td>@food.Fat</td>
+                        </tr>
+                    </tbody>
+                }                
+            </table>
+        </div>
+    </div>
+</div>
