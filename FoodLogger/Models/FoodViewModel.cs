@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace FoodLogger.Models
 {
-    public class CreateFoodViewModel
+    public class FoodViewModel
     {
         public int Id { get; set; }
 

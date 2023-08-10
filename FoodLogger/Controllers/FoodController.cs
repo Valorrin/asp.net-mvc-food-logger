@@ -35,12 +35,12 @@ namespace FoodLogger.Controllers
         public IActionResult Create()
         {
             var curUserId = httpContextAccessor.HttpContext.User.GetUserId();
-            var createFoodViewModel = new CreateFoodViewModel { AppUserId = curUserId };
+            var createFoodViewModel = new FoodViewModel { AppUserId = curUserId };
             return View(createFoodViewModel);
         }
 
         [HttpPost]
-        public IActionResult Create(CreateFoodViewModel foodVM)
+        public IActionResult Create(FoodViewModel foodVM)
         {
             if (!ModelState.IsValid)
             {

@@ -1,4 +1,9 @@
-﻿@model IEnumerable<FoodInfoViewModel>
+﻿@model FoodSearchQueryModel
+
+<form method="get" action="@Url.Action("Search", "Edamam")">
+    <input type="text" name="searchString" placeholder="Enter food name" value="@Model.SearchTerm" />
+    <button type="submit">Search</button>
+</form>
 
 <div class="container" >
     <div class="row">
@@ -15,7 +20,7 @@
                     </tr>
                 </thead>
                 @{int total = 1;}
-                @foreach (var food in Model)
+                @foreach (var food in Model.Foods)
                 {
                     <tbody>
                         <tr>
