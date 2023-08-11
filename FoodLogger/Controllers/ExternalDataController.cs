@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace FoodLogger.Controllers
 {
-    public class EdamamController : Controller
+    public class ExternalDataController : Controller
     {
         private const string ApiKey = "a8da026f64f75fa53c487993d6481f63";
         private const string AppId = "53c01a24";

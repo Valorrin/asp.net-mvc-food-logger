@@ -1,6 +1,6 @@
 ﻿@model FoodSearchQueryModel
 
-<form method="get" action="@Url.Action("Search", "Edamam")">
+<form method="get" action="@Url.Action("Search", "ExternalData")">
     <input type="text" name="searchString" placeholder="Enter food name" value="@Model.SearchTerm" />
     <button type="submit">Search</button>
 </form>
