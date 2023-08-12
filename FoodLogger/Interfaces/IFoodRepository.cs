@@ -13,6 +13,8 @@ namespace FoodLogger.Interfaces
 
         public  Task<IEnumerable<Food>> GetAll();
 
+        public IEnumerable<Food> GetAllFood();
+
 
         public  Task<Food> GetById(int id);
 

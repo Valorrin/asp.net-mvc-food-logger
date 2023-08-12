@@ -14,7 +14,7 @@ namespace FoodLogger.Data.Models
         [MaxLength(NameMaxLength)]
         public string Name { get; set; }
 
-        public ICollection<Food>? FoodItems { get; set; }
+        public ICollection<RecipeFood>? RecipeFoods { get; set; }
 
         [ForeignKey("AppUser")]
         public string? AppUserId { get; set; }
@@ -22,19 +22,19 @@ namespace FoodLogger.Data.Models
 
 
         [NotMapped]
-        public double Grams => FoodItems.Sum(fi => fi.Grams);
+        public double Grams => RecipeFoods.Sum(fi => fi.Food.Grams);
 
         [NotMapped]
-        public double Calories => FoodItems.Sum(fi => fi.Calories);
+        public double Calories => RecipeFoods.Sum(fi => fi.Food.Calories);
 
         [NotMapped]
-        public double Protein => FoodItems.Sum(fi => fi.Protein);
+        public double Protein => RecipeFoods.Sum(fi => fi.Food.Protein);
 
         [NotMapped]
-        public double Carbohydrates => FoodItems.Sum(fi => fi.Protein);
+        public double Carbohydrates => RecipeFoods.Sum(fi => fi.Food.Protein);
 
         [NotMapped]
-        public double Fat => FoodItems.Sum(fi => fi.Protein);
+        public double Fat => RecipeFoods.Sum(fi => fi.Food.Protein);
 
 
     }

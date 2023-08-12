@@ -1,0 +1,16 @@
+﻿@model CreateRecipeViewModel
+
+<h2>Create New Recipe</h2>
+
+<form asp-action="Create" asp-controller="Recipe" method="post">
+    <input type="hidden" id="AppUserId" name="AppUserID" asp-for="AppUserId"></input>
+    <div class="form-group">
+        <label asp-for="Name"></label>
+        <input asp-for="Name" class="form-control" />
+    </div>
+
+    <h3>Select Food Items:</h3>
+    <select asp-for="SelectedFoodIds" asp-items='new MultiSelectList(Model.AvailableFoods, "Id", "Name")' multiple class="form-control"></select>
+
+    <button type="submit" class="btn btn-primary">Create Recipe</button>
+</form>

@@ -36,8 +36,5 @@ namespace FoodLogger.Data.Models
         public string? AppUserId { get; set; }
         public AppUser? AppUser { get; set; }
 
-        [ForeignKey("Recipe")]
-        public int? RecipeId { get; set; }
-        public Recipe? Recipe { get; set; }
     }
 }

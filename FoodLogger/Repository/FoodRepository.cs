@@ -32,6 +32,11 @@ namespace FoodLogger.Repository
             return await context.Foods.ToListAsync();
         }
 
+        public IEnumerable<Food> GetAllFood()
+        {
+            return context.Foods.ToList();
+        }
+
         public async Task<Food> GetById(int id)
         {
             return await context.Foods.FirstOrDefaultAsync(f => f.Id == id);
