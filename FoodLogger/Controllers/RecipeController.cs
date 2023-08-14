@@ -45,7 +45,7 @@ namespace FoodLogger.Controllers
         {
             if (!ModelState.IsValid)
             {
-                 createRecipeViewModel.AvailableFoods = foodRepository.GetAllFood().ToList();
+                createRecipeViewModel.AvailableFoods = foodRepository.GetAllFood().ToList();
                 return View(createRecipeViewModel);
             }
 

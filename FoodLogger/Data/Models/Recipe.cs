@@ -15,6 +15,7 @@ namespace FoodLogger.Data.Models
         public string Name { get; set; }
 
         public ICollection<RecipeFood>? RecipeFoods { get; set; }
+        public ICollection<DiaryEntry> DiaryEntries { get; set; }
 
         [ForeignKey("AppUser")]
         public string? AppUserId { get; set; }
