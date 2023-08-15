@@ -14,7 +14,7 @@ namespace FoodLogger.Data.Models
         [MaxLength(NameMaxLength)]
         public string Name { get; set; }
 
-        public ICollection<RecipeFood>? RecipeFoods { get; set; }
+        public ICollection<RecipeFood> RecipeFoods { get; set; }
         public ICollection<DiaryEntry> DiaryEntries { get; set; }
 
         [ForeignKey("AppUser")]

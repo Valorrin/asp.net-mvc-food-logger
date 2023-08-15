@@ -1,0 +1,93 @@
+﻿@model DiaryViewModel
+
+<h2>Diary</h2>
+
+<div class="date-picker-container">
+    <label for="datepicker">Select Date: </label>
+    <input type="text" id="datepicker" autocomplete="off">
+</div>
+
+<div class="entry-list-container">
+    <ul class="entry-list">
+        @foreach (var entry in Model.DiaryEntries)
+        {
+            <li class="entry">
+                <div class="entry-details">
+                    @if (entry.Food != null)
+                    {
+                        <strong>@entry.Food.Name</strong>
+                    }
+                    else if (entry.Recipe != null)
+                    {
+                        <strong>@entry.Recipe.Name</strong>
+                    }
+                </div>
+                <div class="entry-date">@entry.EntryDate.ToString("MMM dd, yyyy h:mm tt")</div>
+            </li>
+        }
+    </ul>
+</div>
+
+<p>
+    <a asp-action="AddFood" asp-controller="DiaryEntry" asp-route-selectedDate="@Model.SelectedDate">Add Food</a>
+    <a asp-action="AddRecipe" asp-controller="DiaryEntry" asp-route-selectedDate="@Model.SelectedDate">Add Recipe</a>
+</p>
+
+@section Scripts {
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script>
+        $(function () {
+            $("#datepicker").datepicker({
+                dateFormat: "yy-mm-dd",
+                showOtherMonths: true,
+                selectOtherMonths: true,
+                changeMonth: true,
+                changeYear: true,
+                maxDate: 0, // Allow only past dates
+                defaultDate: new Date() // Set default date to today
+            });
+
+            // JavaScript to format date elements
+            $(".entry-date").each(function () {
+                const entryDate = new Date($(this).text());
+                const formattedDate = new Intl.DateTimeFormat("en-US", {
+                    year: "numeric",
+                    month: "short",
+                    day: "numeric",
+                    hour: "numeric",
+                    minute: "2-digit"
+                }).format(entryDate);
+
+                $(this).text(formattedDate);
+            });
+        });
+    </script>
+    <style>
+        .date-picker-container {
+            margin-bottom: 20px;
+        }
+
+        .entry-list {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .entry {
+            border: 1px solid #ddd;
+            padding: 10px;
+            margin-bottom: 10px;
+            background-color: #f9f9f9;
+        }
+
+        .entry-details {
+            font-weight: bold;
+        }
+
+        .entry-date {
+            color: #888;
+            font-size: 12px;
+        }
+    </style>
+}
