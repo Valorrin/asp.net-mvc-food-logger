@@ -30,6 +30,10 @@ namespace FoodLogger.Repository
         {
             return await context.Recipes.ToListAsync();
         }
+        public IEnumerable<Recipe> GetAllRecipes()
+        { 
+            return context.Recipes.ToList();
+        }
 
         public async Task<Recipe> GetById(int id)
         {
@@ -47,5 +51,6 @@ namespace FoodLogger.Repository
             var saved = context.SaveChanges();
             return saved > 0 ? true : false;
         }
+
     }
 }

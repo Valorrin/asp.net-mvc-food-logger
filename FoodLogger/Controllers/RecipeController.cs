@@ -27,7 +27,7 @@ namespace FoodLogger.Controllers
         [HttpGet]
         public IActionResult Create()
         {
-            var availableFoods = foodRepository.GetAllFood().ToList();
+            var availableFoods = foodRepository.GetAllFoods().ToList();
             var curUserId = httpContextAccessor.HttpContext.User.GetUserId();
 
             var createRecipeViewModel = new CreateRecipeViewModel
@@ -45,13 +45,14 @@ namespace FoodLogger.Controllers
         {
             if (!ModelState.IsValid)
             {
-                createRecipeViewModel.AvailableFoods = foodRepository.GetAllFood().ToList();
+                createRecipeViewModel.AvailableFoods = foodRepository.GetAllFoods().ToList();
                 return View(createRecipeViewModel);
             }
 
             var newRecipe = new Recipe
             {
                 Name = createRecipeViewModel.Name,
+                AppUserId = createRecipeViewModel.AppUserId,
                 RecipeFoods = createRecipeViewModel.SelectedFoodIds
                     .Where(foodId => foodId > 0)
                     .Select(foodId => new RecipeFood

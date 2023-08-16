@@ -32,7 +32,7 @@ namespace FoodLogger.Repository
             return await context.Foods.ToListAsync();
         }
 
-        public IEnumerable<Food> GetAllFood()
+        public IEnumerable<Food> GetAllFoods()
         {
             return context.Foods.ToList();
         }

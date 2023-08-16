@@ -1,0 +1,35 @@
+﻿@model DiaryEntryViewModel
+
+<h2>Add Diary Entry</h2>
+<form asp-controller="DiaryEntry" asp-action="AddEntry" method="post">
+    <input type="hidden" id="AppUserId" name="AppUserID" asp-for="AppUserId"></input>
+    <input type="hidden" asp-for="AvailableFoods" value="@Json.Serialize(Model.AvailableFoods)">
+    <input type="hidden" asp-for="AvailableRecipes" value="@Json.Serialize(Model.AvailableRecipes)">
+    <input type="hidden" asp-for="DiaryId" />
+
+    <label for="entryDate">Entry Date:</label>
+    <input type="date" id="entryDate" name="EntryDate" required class="form-control" value="@Model.EntryDate.ToString("yyyy-MM-dd")">
+
+    <label for="selectedFoodId">Food:</label>
+    <select id="selectedFoodId" name="SelectedFoodId" class="form-control">
+        <option value="">Select a food...</option>
+        @foreach (var food in Model.AvailableFoods)
+        {
+            <option value="@food.Id">@food.Name</option>
+        }
+    </select>
+
+    <label for="selectedRecipeId">Recipe:</label>
+    <select id="selectedRecipeId" name="SelectedRecipeId" class="form-control">
+        <option value="">Select a recipe...</option>
+        @foreach (var recipe in Model.AvailableRecipes)
+        {
+            <option value="@recipe.Id">@recipe.Name</option>
+        }
+    </select>
+
+    <label for="quantity">Quantity:</label>
+    <input type="number" id="quantity" name="Quantity" required class="form-control">
+
+    <button type="submit" class="btn btn-primary">Add Entry</button>
+</form>

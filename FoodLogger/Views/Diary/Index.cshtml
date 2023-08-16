@@ -6,6 +6,10 @@
     <label for="datepicker">Select Date: </label>
     <input type="text" id="datepicker" autocomplete="off">
 </div>
+<p>
+    <a asp-action="AddFoodEntry" asp-controller="DiaryEntry" asp-route-selectedDate="@Model.SelectedDate">Add Food</a>
+    <a asp-action="AddRecipeEntry" asp-controller="DiaryEntry" asp-route-selectedDate="@Model.SelectedDate">Add Recipe</a>
+</p>
 
 <div class="entry-list-container">
     <ul class="entry-list">
@@ -13,11 +17,11 @@
         {
             <li class="entry">
                 <div class="entry-details">
-                    @if (entry.Food != null)
+                    @if (entry.FoodId != null)
                     {
                         <strong>@entry.Food.Name</strong>
                     }
-                    else if (entry.Recipe != null)
+                    @if (entry.RecipeId != null)
                     {
                         <strong>@entry.Recipe.Name</strong>
                     }
@@ -27,11 +31,6 @@
         }
     </ul>
 </div>
-
-<p>
-    <a asp-action="AddFood" asp-controller="DiaryEntry" asp-route-selectedDate="@Model.SelectedDate">Add Food</a>
-    <a asp-action="AddRecipe" asp-controller="DiaryEntry" asp-route-selectedDate="@Model.SelectedDate">Add Recipe</a>
-</p>
 
 @section Scripts {
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">

@@ -9,6 +9,7 @@ namespace FoodLogger.Interfaces
 
         public bool Delete(Recipe recipe);
 
+        public IEnumerable<Recipe> GetAllRecipes();
 
         public Task<IEnumerable<Recipe>> GetAll();
 

@@ -4,6 +4,7 @@
 
 <form asp-action="Create" asp-controller="Recipe" method="post">
     <input type="hidden" id="AppUserId" name="AppUserID" asp-for="AppUserId"></input>
+    <input type="hidden" asp-for="AvailableFoods" value="@Json.Serialize(Model.AvailableFoods)">
     <div class="form-group">
         <label asp-for="Name"></label>
         <input asp-for="Name" class="form-control" />

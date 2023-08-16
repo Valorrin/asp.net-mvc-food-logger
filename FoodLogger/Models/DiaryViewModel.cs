@@ -4,7 +4,8 @@ namespace FoodLogger.Models
 {
     public class DiaryViewModel
     {
-        public DateTime SelectedDate { get; set; }
+        public int DiaryId { get; set; }
+        public DateTime? SelectedDate { get; set; }
         public List<DiaryEntry> DiaryEntries { get; set; }
     }
 }

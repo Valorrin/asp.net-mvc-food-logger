@@ -21,22 +21,22 @@ namespace FoodLogger.Data.Models
         public string? AppUserId { get; set; }
         public AppUser? AppUser { get; set; }
 
+        /*
+        [NotMapped]
+        public double? Grams => RecipeFoods.Sum(fi => fi.Food.Grams);
 
         [NotMapped]
-        public double Grams => RecipeFoods.Sum(fi => fi.Food.Grams);
+        public double? Calories => RecipeFoods.Sum(fi => fi.Food.Calories);
 
         [NotMapped]
-        public double Calories => RecipeFoods.Sum(fi => fi.Food.Calories);
+        public double? Protein => RecipeFoods.Sum(fi => fi.Food.Protein);
 
         [NotMapped]
-        public double Protein => RecipeFoods.Sum(fi => fi.Food.Protein);
+        public double? Carbohydrates => RecipeFoods.Sum(fi => fi.Food.Protein);
 
         [NotMapped]
-        public double Carbohydrates => RecipeFoods.Sum(fi => fi.Food.Protein);
-
-        [NotMapped]
-        public double Fat => RecipeFoods.Sum(fi => fi.Food.Protein);
-
+        public double? Fat => RecipeFoods.Sum(fi => fi.Food.Protein);
+        */
 
     }
 }
