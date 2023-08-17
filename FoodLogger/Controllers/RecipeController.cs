@@ -19,9 +19,10 @@ namespace FoodLogger.Controllers
             this.foodRepository = foodRepository;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            var recipes = await recipeRepository.GetAll();
+            return View(recipes);
         }
 
         [HttpGet]
@@ -53,14 +54,16 @@ namespace FoodLogger.Controllers
             {
                 Name = createRecipeViewModel.Name,
                 AppUserId = createRecipeViewModel.AppUserId,
-                RecipeFoods = createRecipeViewModel.SelectedFoodIds
-                    .Where(foodId => foodId > 0)
-                    .Select(foodId => new RecipeFood
-                    {
-                        FoodId = foodId
-                    })
-                    .ToList()
             };
+
+            foreach (var foodId in createRecipeViewModel.SelectedFoodIds)
+            {
+                var food = foodRepository.GetById(foodId);
+                if (food != null)
+                {
+                    newRecipe.Foods.Add(food);
+                }
+            }
 
             recipeRepository.Create(newRecipe);
             return RedirectToAction("Index");

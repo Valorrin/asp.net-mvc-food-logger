@@ -7,29 +7,12 @@
     <input type="text" id="datepicker" autocomplete="off">
 </div>
 <p>
-    <a asp-action="AddFoodEntry" asp-controller="DiaryEntry" asp-route-selectedDate="@Model.SelectedDate">Add Food</a>
-    <a asp-action="AddRecipeEntry" asp-controller="DiaryEntry" asp-route-selectedDate="@Model.SelectedDate">Add Recipe</a>
+    <a id="addFoodLink" data-url="/DiaryEntry/AddFoodEntry" asp-controller="DiaryEntry">Add Food</a>
+    <a id="addRecipeLink" data-url="/DiaryEntry/AddRecipeEntry" asp-controller="DiaryEntry">Add Recipe</a>
 </p>
 
 <div class="entry-list-container">
-    <ul class="entry-list">
-        @foreach (var entry in Model.DiaryEntries)
-        {
-            <li class="entry">
-                <div class="entry-details">
-                    @if (entry.FoodId != null)
-                    {
-                        <strong>@entry.Food.Name</strong>
-                    }
-                    @if (entry.RecipeId != null)
-                    {
-                        <strong>@entry.Recipe.Name</strong>
-                    }
-                </div>
-                <div class="entry-date">@entry.EntryDate.ToString("MMM dd, yyyy h:mm tt")</div>
-            </li>
-        }
-    </ul>
+    @Html.Partial("_DiaryEntriesPartial", Model)
 </div>
 
 @section Scripts {
@@ -45,22 +28,34 @@
                 changeMonth: true,
                 changeYear: true,
                 maxDate: 0, // Allow only past dates
-                defaultDate: new Date() // Set default date to today
+                onSelect: function (selectedDate) {
+                    // Update the "Add Food" and "Add Recipe" links with selected date
+                    var addFoodLink = $("#addFoodLink");
+                    var addRecipeLink = $("#addRecipeLink");
+
+                    var addFoodUrl = addFoodLink.data("url");
+                    var addRecipeUrl = addRecipeLink.data("url");
+
+                    addFoodLink.attr("href", addFoodUrl + "?selectedDate=" + selectedDate);
+                    addRecipeLink.attr("href", addRecipeUrl + "?selectedDate=" + selectedDate);
+
+                    // Fetch and update diary entries using AJAX
+                    $.get("/Diary/LoadDiary", { selectedDate: selectedDate }, function (data) {
+                        $(".entry-list-container").html(data);
+                    });
+                }
             });
 
-            // JavaScript to format date elements
-            $(".entry-date").each(function () {
-                const entryDate = new Date($(this).text());
-                const formattedDate = new Intl.DateTimeFormat("en-US", {
-                    year: "numeric",
-                    month: "short",
-                    day: "numeric",
-                    hour: "numeric",
-                    minute: "2-digit"
-                }).format(entryDate);
+            // Get the current date
+            var today = new Date();
+            var formattedToday = $.datepicker.formatDate("yy-mm-dd", today);
 
-                $(this).text(formattedDate);
-            });
+            // Automatically select today's date in the datepicker
+            $("#datepicker").datepicker("setDate", formattedToday);
+
+            // Update the links to use today's date
+            $("#addFoodLink").attr("href", $("#addFoodLink").data("url") + "?selectedDate=" + formattedToday);
+            $("#addRecipeLink").attr("href", $("#addRecipeLink").data("url") + "?selectedDate=" + formattedToday);
         });
     </script>
     <style>

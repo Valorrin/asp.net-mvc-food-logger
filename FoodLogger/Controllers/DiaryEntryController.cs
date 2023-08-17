@@ -2,6 +2,7 @@
 using FoodLogger.Interfaces;
 using FoodLogger.Models;
 using Microsoft.AspNetCore.Mvc;
+using System.Globalization;
 using System.Security.Claims;
 
 namespace FoodLogger.Controllers
@@ -23,15 +24,17 @@ namespace FoodLogger.Controllers
         }
 
         [HttpGet]
-        public IActionResult AddFoodEntry()
+        public IActionResult AddFoodEntry(string selectedDate)
         {
+            DateTime.TryParseExact(selectedDate, "yyyy-MM-dd", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime diaryDate);
+
             var userId = httpContextAccessor.HttpContext.User.GetUserId();
-            var diaryId = diaryRepository.GetDiaryId(userId, DateTime.Today);
+            var diaryId = diaryRepository.GetDiaryId(userId, diaryDate.Date);
             var availableFoods = foodRepository.GetAllFoods();
 
             var entryViewModel = new DiaryEntryViewModel
             {
-                EntryDate = DateTime.Today,
+                DiaryDate = diaryDate,
                 AvailableFoods = availableFoods.ToList(),
                 AppUserId = userId,
                 DiaryId = diaryId
@@ -48,7 +51,6 @@ namespace FoodLogger.Controllers
                 var newDiaryEntry = new DiaryEntry
                 {
                     DiaryId = entryViewModel.DiaryId,
-                    EntryDate = entryViewModel.EntryDate,
                     FoodId = entryViewModel.SelectedFoodId,
                     Quantity = entryViewModel.Quantity,
                 };
@@ -63,15 +65,17 @@ namespace FoodLogger.Controllers
         }
 
         [HttpGet]
-        public IActionResult AddRecipeEntry()
+        public IActionResult AddRecipeEntry(string selectedDate)
         {
+            DateTime.TryParseExact(selectedDate, "yyyy-MM-dd", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime diaryDate);
+
             var userId = httpContextAccessor.HttpContext.User.GetUserId();
-            var diaryId = diaryRepository.GetDiaryId(userId, DateTime.Today);
+            var diaryId = diaryRepository.GetDiaryId(userId, diaryDate.Date);
             var availableRecipes = recipeRepository.GetAllRecipes();
 
             var entryViewModel = new DiaryEntryViewModel
             {
-                EntryDate = DateTime.Today,
+                DiaryDate = diaryDate,
                 AvailableRecipes = availableRecipes.ToList(),
                 AppUserId = userId,
                 DiaryId = diaryId
@@ -88,7 +92,6 @@ namespace FoodLogger.Controllers
                 var newDiaryEntry = new DiaryEntry
                 {
                     DiaryId = entryViewModel.DiaryId,
-                    EntryDate = entryViewModel.EntryDate,
                     RecipeId = entryViewModel.SelectedRecipeId,
                     Quantity = entryViewModel.Quantity,
                 };

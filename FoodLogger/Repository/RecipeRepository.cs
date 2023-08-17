@@ -28,7 +28,7 @@ namespace FoodLogger.Repository
 
         public async Task<IEnumerable<Recipe>> GetAll()
         {
-            return await context.Recipes.ToListAsync();
+            return await context.Recipes.Include(r => r.Foods).ToListAsync();
         }
         public IEnumerable<Recipe> GetAllRecipes()
         { 

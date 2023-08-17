@@ -4,6 +4,7 @@ using FoodLogger.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FoodLogger.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230817104535_RemovedDateFromDiaryEntry")]
+    partial class RemovedDateFromDiaryEntry
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -109,7 +112,7 @@ namespace FoodLogger.Data.Migrations
 
                     b.HasIndex("AppUserId");
 
-                    b.ToTable("Diaries", (string)null);
+                    b.ToTable("Diaries");
                 });
 
             modelBuilder.Entity("FoodLogger.Data.Models.DiaryEntry", b =>
@@ -140,7 +143,7 @@ namespace FoodLogger.Data.Migrations
 
                     b.HasIndex("RecipeId");
 
-                    b.ToTable("DiaryEntries", (string)null);
+                    b.ToTable("DiaryEntries");
                 });
 
             modelBuilder.Entity("FoodLogger.Data.Models.Food", b =>
@@ -177,16 +180,11 @@ namespace FoodLogger.Data.Migrations
                     b.Property<double>("Protein")
                         .HasColumnType("float");
 
-                    b.Property<int?>("RecipeId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
                     b.HasIndex("AppUserId");
 
-                    b.HasIndex("RecipeId");
-
-                    b.ToTable("Foods", (string)null);
+                    b.ToTable("Foods");
                 });
 
             modelBuilder.Entity("FoodLogger.Data.Models.Recipe", b =>
@@ -209,7 +207,22 @@ namespace FoodLogger.Data.Migrations
 
                     b.HasIndex("AppUserId");
 
-                    b.ToTable("Recipes", (string)null);
+                    b.ToTable("Recipes");
+                });
+
+            modelBuilder.Entity("FoodLogger.Data.Models.RecipeFood", b =>
+                {
+                    b.Property<int>("RecipeId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("FoodId")
+                        .HasColumnType("int");
+
+                    b.HasKey("RecipeId", "FoodId");
+
+                    b.HasIndex("FoodId");
+
+                    b.ToTable("RecipesFoods");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -383,10 +396,6 @@ namespace FoodLogger.Data.Migrations
                         .WithMany("Foods")
                         .HasForeignKey("AppUserId");
 
-                    b.HasOne("FoodLogger.Data.Models.Recipe", null)
-                        .WithMany("Foods")
-                        .HasForeignKey("RecipeId");
-
                     b.Navigation("AppUser");
                 });
 
@@ -397,6 +406,25 @@ namespace FoodLogger.Data.Migrations
                         .HasForeignKey("AppUserId");
 
                     b.Navigation("AppUser");
+                });
+
+            modelBuilder.Entity("FoodLogger.Data.Models.RecipeFood", b =>
+                {
+                    b.HasOne("FoodLogger.Data.Models.Food", "Food")
+                        .WithMany()
+                        .HasForeignKey("FoodId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("FoodLogger.Data.Models.Recipe", "Recipe")
+                        .WithMany("RecipeFoods")
+                        .HasForeignKey("RecipeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Food");
+
+                    b.Navigation("Recipe");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -468,7 +496,7 @@ namespace FoodLogger.Data.Migrations
                 {
                     b.Navigation("DiaryEntries");
 
-                    b.Navigation("Foods");
+                    b.Navigation("RecipeFoods");
                 });
 #pragma warning restore 612, 618
         }

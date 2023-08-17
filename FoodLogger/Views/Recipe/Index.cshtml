@@ -1,0 +1,26 @@
+﻿@model List<Recipe>
+
+<h2>All Recipes</h2>
+
+<ul class="recipe-list">
+    @foreach (var recipe in Model)
+    {
+        <li class="recipe-item">
+            <h3 class="recipe-title">@recipe.Name</h3>
+            @if (recipe.Foods.Count > 0)
+            {
+                <div class="recipe-info">
+                    <p><strong>Grams:</strong> @string.Format("{0:0.0}", recipe.CalculateGrams / recipe.Foods.Count) g</p>
+                    <p><strong>Energy:</strong> @string.Format("{0:0.0}", recipe.CalculateCalories / recipe.Foods.Count) kcal</p>
+                    <p><strong>Protein:</strong> @string.Format("{0:0.0}", recipe.CalculateProtein / recipe.Foods.Count) g</p>
+                    <p><strong>Carbs:</strong> @string.Format("{0:0.0}", recipe.CalculateCarbs / recipe.Foods.Count) g</p>
+                    <p><strong>Fats:</strong> @string.Format("{0:0.0}", recipe.CalculateFats / recipe.Foods.Count) g</p>
+                </div>
+            }
+            else
+            {
+                <p class="recipe-info">No Foods</p>
+            }
+        </li>
+    }
+</ul>

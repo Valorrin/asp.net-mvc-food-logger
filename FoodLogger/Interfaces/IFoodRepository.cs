@@ -16,7 +16,7 @@ namespace FoodLogger.Interfaces
         public IEnumerable<Food> GetAllFoods();
 
 
-        public  Task<Food> GetById(int id);
+        public  Food GetById(int id);
 
         public bool Update(Food food);
 

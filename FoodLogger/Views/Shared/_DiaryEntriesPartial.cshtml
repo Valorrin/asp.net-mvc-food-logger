@@ -1,0 +1,28 @@
+﻿@model DiaryViewModel
+
+<ul class="entry-list">
+    @foreach (var entry in Model.DiaryEntries)
+    {
+        <li class="entry">
+            <div class="entry-details">
+                @if (entry.FoodId != null)
+                {
+                    <strong>@entry.Food.Name</strong>
+                }
+                @if (entry.RecipeId != null)
+                {
+                    <strong>@entry.Recipe.Name</strong>
+                }
+            </div>
+            @if (entry.FoodId != null)
+            {
+                <div class="entry-date">@entry.Food.Calories</div>
+            }
+            @if (entry.RecipeId != null)
+            {
+                <div class="entry-date">@entry.Recipe.CalculateCalories</div>
+                <div class="entry-date">@entry.Recipe.Foods.Count</div>
+            }
+        </li>
+    }
+</ul>

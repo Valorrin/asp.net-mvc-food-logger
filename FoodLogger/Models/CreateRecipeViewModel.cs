@@ -8,5 +8,7 @@ namespace FoodLogger.Models
         public List<int> SelectedFoodIds { get; set; }
         public List<Food> AvailableFoods { get; set; }
         public string AppUserId { get; set; }
+
+        public double Calories { get; set; }
     }
 }

@@ -24,9 +24,9 @@ namespace FoodLogger.Controllers
             return View(foods);
         }
 
-        public async Task<IActionResult> Detail(int id)
+        public IActionResult Detail(int id)
         {
-            var food = await foodRepository.GetById(id);
+            var food = foodRepository.GetById(id);
 
             return View(food);
         }
@@ -65,9 +65,9 @@ namespace FoodLogger.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Edit(int id) 
+        public IActionResult Edit(int id) 
         {
-            var food = await foodRepository.GetById(id);
+            var food = foodRepository.GetById(id);
             if (food == null) { return View("Error"); }
 
             var foodVM = new EditFoodViewModel
@@ -114,18 +114,18 @@ namespace FoodLogger.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult> Delete(int id) 
+        public ActionResult Delete(int id) 
         {
-            var food = await foodRepository.GetById(id);
+            var food = foodRepository.GetById(id);
             if (food == null) { return View("Error"); }
 
             return View(food);
         }
 
         [HttpPost, ActionName("Delete")]
-        public async Task<ActionResult> DeleteFood(int id)
+        public ActionResult DeleteFood(int id)
         {
-            var food = await foodRepository.GetById(id);
+            var food = foodRepository.GetById(id);
             if (food == null) { return View("Error"); }
 
             foodRepository.Delete(food);

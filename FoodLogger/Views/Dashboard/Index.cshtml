@@ -1,21 +1,25 @@
-﻿﻿@using Microsoft.AspNetCore.Identity
+﻿@using Microsoft.AspNetCore.Identity
 @inject SignInManager<AppUser> SignInManager
 
 @model DashboardViewModel
 
 <h1 class="display-4 fw-normal">Your Dashboard</h1>
-<a type="button" class="btn btn-primary" asp-area="" asp-controller="Food" asp-action="Create">Create Food</a>
-<a type="button" class="btn btn-primary" asp-area="" asp-controller="Dashboard" asp-action="EditUserProfile">Edit User Profile</a>
+<div class="dashboard-buttons">
+    <a class="btn btn-primary" asp-area="" asp-controller="Food" asp-action="Create">Create Food</a>
+    <a class="btn btn-primary" asp-area="" asp-controller="Food" asp-action="Create">Create Recipe</a>
+    <a class="btn btn-primary" asp-area="" asp-controller="Food" asp-action="Index">Foods</a>
+    <a class="btn btn-primary" asp-area="" asp-controller="Recipe" asp-action="Index">Recipes</a>
+</div>
 <div class="container">
     <div class="row">
         <div class="col-12">
-            <table class="table table-bordered">
+            <table class="table table-bordered dashboard-table">
                 <thead>
                     <tr>
-                        <th scope="col"></th>
+                        <th scope="col">#</th>
                         <th scope="col">Food Name</th>
                         <th scope="col">Category</th>
-                        <th scope="col">Calories(100g)</th>
+                        <th scope="col">Calories (100g)</th>
                         <th scope="col">Actions</th>
                     </tr>
                 </thead>
@@ -31,11 +35,11 @@
                             <td>@food.FoodCategory</td>
                             <td>@food.Calories</td>
                             <td>
-                                <a type="button" class="btn btn-sm btn btn-info" asp-controller="Food" asp-action="Detail" asp-route-id="@food.Id"><i class="far fa-eye">Detail</i></a>
+                                <a class="btn btn-info btn-sm" asp-controller="Food" asp-action="Detail" asp-route-id="@food.Id"><i class="far fa-eye"></i> Detail</a>
                                 @if (User.Identity.IsAuthenticated)
                                 {
-                                    <a type="button" class="btn btn-sm btn btn-success" asp-controller="Food" asp-action="Edit" asp-route-id="@food.Id"><i class="fas fa-edit"></i>Edit</a>
-                                    <a type="button" class="btn btn-sm btn btn-danger" asp-controller="Food" asp-action="Delete" asp-route-id="@food.Id"><i class="far fa-trash">Delete</i></a>
+                                    <a class="btn btn-success btn-sm" asp-controller="Food" asp-action="Edit" asp-route-id="@food.Id"><i class="fas fa-edit"></i> Edit</a>
+                                    <a class="btn btn-danger btn-sm" asp-controller="Food" asp-action="Delete" asp-route-id="@food.Id"><i class="far fa-trash-alt"></i> Delete</a>
                                 }
                             </td>
                         </tr>
@@ -45,3 +49,18 @@
         </div>
     </div>
 </div>
+
+<style>
+    .dashboard-buttons {
+        margin-bottom: 20px;
+    }
+
+    .dashboard-table th,
+    .dashboard-table td {
+        vertical-align: middle;
+    }
+
+    .dashboard-table th {
+        width: 5%;
+    }
+</style>

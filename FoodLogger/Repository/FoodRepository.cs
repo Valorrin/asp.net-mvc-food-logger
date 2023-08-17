@@ -37,9 +37,9 @@ namespace FoodLogger.Repository
             return context.Foods.ToList();
         }
 
-        public async Task<Food> GetById(int id)
+        public Food GetById(int id)
         {
-            return await context.Foods.FirstOrDefaultAsync(f => f.Id == id);
+            return  context.Foods.FirstOrDefault(f => f.Id == id);
         }
         public bool Update(Food food)
         {

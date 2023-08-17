@@ -14,7 +14,6 @@ namespace FoodLogger.Data
 
         public DbSet<Food> Foods { get; set; }
         public DbSet<Recipe> Recipes { get; set; }
-        public DbSet<RecipeFood> RecipesFoods { get; set; }
         public DbSet<Diary> Diaries { get; set; }
         public DbSet<DiaryEntry> DiaryEntries { get; set; }
 
@@ -22,8 +21,6 @@ namespace FoodLogger.Data
         {
             base.OnModelCreating(builder);
 
-            builder.Entity<RecipeFood>()
-            .HasKey(rf => new { rf.RecipeId, rf.FoodId });
         }
     }
 }

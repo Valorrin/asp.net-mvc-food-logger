@@ -17,10 +17,11 @@ namespace FoodLogger.Repository
         public List<DiaryEntry> GetDiaryEntriesForDate(DateTime? date)
         {
             var diaryEntries = context.DiaryEntries
-            .Include(de => de.Recipe)
-            .Include(de => de.Food)
-            .Where(de => de.Diary.Date == date)
-            .ToList();
+                .Include(de => de.Food)
+                .Include(de => de.Recipe)
+                    .ThenInclude(r => r.Foods)
+                .Where(de => de.Diary.Date == date)
+                .ToList();
 
             return diaryEntries;
         }

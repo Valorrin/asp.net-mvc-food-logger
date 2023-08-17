@@ -6,9 +6,6 @@
     <input type="hidden" asp-for="AvailableRecipes" value="@Json.Serialize(Model.AvailableRecipes)">
     <input type="hidden" asp-for="DiaryId" />
 
-    <label for="entryDate">Entry Date:</label>
-    <input type="date" id="entryDate" name="EntryDate" required class="form-control" value="@Model.EntryDate.ToString("yyyy-MM-dd")">
-
     <label for="selectedRecipeId">Recipe:</label>
     <select id="selectedRecipeId" name="SelectedRecipeId" class="form-control">
         <option value="">Select a recipe...</option>
