@@ -25,6 +25,12 @@ namespace FoodLogger.Controllers
             return View(recipes);
         }
 
+        public async Task<IActionResult> GetRecipesPartial()
+        {
+            var recipes = await recipeRepository.GetAll();
+            return PartialView("_RecipesPartial", recipes);
+        }
+
         [HttpGet]
         public IActionResult Create()
         {

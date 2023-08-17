@@ -1,0 +1,35 @@
+﻿@model IEnumerable<Food>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Food Name</th>
+            <th scope="col">Category</th>
+            <th scope="col">Calories (100g)</th>
+            <th scope="col">Actions</th>
+        </tr>
+    </thead>
+    @{
+        int total = 1;
+    }
+    @foreach (var food in Model)
+    {
+        <tbody>
+            <tr>
+                <th scope="row">@(total++)</th>
+                <td>@food.Name</td>
+                <td>@food.FoodCategory</td>
+                <td>@food.Calories</td>
+                <td>
+                    <a class="btn btn-info btn-sm" asp-controller="Food" asp-action="Detail" asp-route-id="@food.Id"><i class="far fa-eye"></i> Detail</a>
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <a class="btn btn-success btn-sm" asp-controller="Food" asp-action="Edit" asp-route-id="@food.Id"><i class="fas fa-edit"></i> Edit</a>
+                        <a class="btn btn-danger btn-sm" asp-controller="Food" asp-action="Delete" asp-route-id="@food.Id"><i class="far fa-trash-alt"></i> Delete</a>
+                    }
+                </td>
+            </tr>
+        </tbody>
+    }
+</table>

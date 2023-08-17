@@ -24,6 +24,12 @@ namespace FoodLogger.Controllers
             return View(foods);
         }
 
+        public async Task<IActionResult> GetFoodsPartial()
+        {
+            var foods = await foodRepository.GetAll();
+            return PartialView("_FoodsPartial", foods);
+        }
+
         public IActionResult Detail(int id)
         {
             var food = foodRepository.GetById(id);

@@ -104,5 +104,19 @@ namespace FoodLogger.Controllers
             entryViewModel.AvailableRecipes = recipeRepository.GetAllRecipes().ToList();
             return View(entryViewModel);
         }
+
+        [HttpPost]
+        public IActionResult Delete(int id , string selectedDate)
+        {
+            var entryToDelete = diaryRepository.GetDiaryEntryById(id);
+
+            if (entryToDelete == null)
+            {
+                return NotFound();
+            }
+
+            diaryRepository.DeleteEntry(entryToDelete);
+            return RedirectToAction("Index", "Diary", new { selectedDate }); 
+        }
     }
 }

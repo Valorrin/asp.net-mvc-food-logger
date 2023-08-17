@@ -1,0 +1,37 @@
+﻿@model IEnumerable<Recipe>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Recipe Name</th>
+            <th scope="col">Grams</th>
+            <th scope="col">Calories</th>
+            <th scope="col">Protein</th>
+            <th scope="col">Carbs</th>
+            <th scope="col">Fats</th>
+            <th scope="col">Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            int count = 1;
+        }
+        @foreach (var recipe in Model)
+        {
+            <tr>
+                <th scope="row">@count</th>
+                <td>@recipe.Name</td>
+                <td>@recipe.CalculateGrams g</td>
+                <td>@recipe.CalculateCalories kcal</td>
+                <td>@recipe.CalculateProtein g</td>
+                <td>@recipe.CalculateCarbs g</td>
+                <td>@recipe.CalculateFats g</td>
+                <td>
+                    <!-- Add action buttons for viewing, editing, and deleting recipe -->
+                </td>
+            </tr>
+            count++;
+        }
+    </tbody>
+</table>

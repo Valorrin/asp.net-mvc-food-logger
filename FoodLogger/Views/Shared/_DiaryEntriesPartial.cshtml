@@ -4,7 +4,7 @@
     @foreach (var entry in Model.DiaryEntries)
     {
         <li class="entry">
-            <div class="entry-details">
+            <div class="entry-name">
                 @if (entry.FoodId != null)
                 {
                     <strong>@entry.Food.Name</strong>
@@ -14,15 +14,58 @@
                     <strong>@entry.Recipe.Name</strong>
                 }
             </div>
-            @if (entry.FoodId != null)
-            {
-                <div class="entry-date">@entry.Food.Calories</div>
-            }
-            @if (entry.RecipeId != null)
-            {
-                <div class="entry-date">@entry.Recipe.CalculateCalories</div>
-                <div class="entry-date">@entry.Recipe.Foods.Count</div>
-            }
+            <div class="nutrition-details">
+                @if (entry.FoodId != null)
+                {
+                    <table class="nutrition-table">
+                        <tr>
+                            <th>Grams</th>
+                            <th>Calories</th>
+                            <th>Protein</th>
+                            <th>Carbs</th>
+                            <th>Fats</th>
+                        </tr>
+                        <tr>
+                            <td>@entry.Food.Grams g</td>
+                            <td>@entry.Food.Calories kcal</td>
+                            <td>@entry.Food.Protein g</td>
+                            <td>@entry.Food.Carbs g</td>
+                            <td>@entry.Food.Fat g</td>
+                        </tr>
+                    </table>
+                }
+                @if (entry.RecipeId != null)
+                {
+                    <table class="nutrition-table">
+                        <tr>
+                            <th>Grams</th>
+                            <th>Calories</th>
+                            <th>Protein</th>
+                            <th>Carbs</th>
+                            <th>Fats</th>
+                        </tr>
+                        <tr>
+                            <td>@entry.Recipe.CalculateGrams g</td>
+                            <td>@entry.Recipe.CalculateCalories kcal</td>
+                            <td>@entry.Recipe.CalculateProtein g</td>
+                            <td>@entry.Recipe.CalculateCarbs g</td>
+                            <td>@entry.Recipe.CalculateFats g</td>
+                        </tr>
+                    </table>
+                }
+            </div>
+            <div class="entry-actions">
+                <form asp-controller="DiaryEntry" asp-action="Delete" asp-route-id="@entry.Id" onsubmit="return confirm('Are you sure you want to delete this entry?')">
+                    <button type="submit" class="btn btn-danger btn-sm"><i class="far fa-trash-alt"></i> Delete</button>
+                </form>
+            </div>
         </li>
     }
+    <div class="total-nutrition">
+        <h3>Total Nutrition for the Day</h3>
+        <p>Calories: @Model.TotalCalories</p>
+        <p>Protein: @Model.TotalProtein g</p>
+        <p>Carbs: @Model.TotalCarbs g</p>
+        <p>Fats: @Model.TotalFats g</p>
+    </div>
 </ul>

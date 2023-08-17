@@ -40,9 +40,13 @@ namespace FoodLogger.Repository
 
         public Diary GetDiaryByDate(string userId, DateTime date)
         {
-            return context.Diaries
-                .FirstOrDefault(d => d.AppUserId == userId && d.Date == date);
+            return context.Diaries.FirstOrDefault(d => d.AppUserId == userId && d.Date == date);
         }
+        public DiaryEntry GetDiaryEntryById(int id)
+        {
+            return context.DiaryEntries.FirstOrDefault(d => d.Id == id);
+        }
+
         public int GetDiaryId(string appUserId, DateTime date)
         {
             return context.Diaries.FirstOrDefault(d => d.AppUserId == appUserId && d.Date == date).Id;
@@ -52,6 +56,12 @@ namespace FoodLogger.Repository
         {
             var saved = context.SaveChanges();
             return saved > 0 ? true : false;
+        }
+
+        public bool DeleteEntry(DiaryEntry entry)
+        {
+            context.DiaryEntries.Remove(entry);
+            return Save();
         }
 
     }
