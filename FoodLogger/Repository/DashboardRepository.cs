@@ -23,5 +23,13 @@ namespace FoodLogger.Repository
             
             return userFoods.ToList();
         }
+
+        public async Task<List<Recipe>> GetAllUserRecipes()
+        {
+            var curUser = httpContextAccessor.HttpContext?.User.GetUserId();
+            var userRecipes = context.Recipes.Where(r => r.AppUser.Id == curUser.ToString());
+
+            return userRecipes.ToList();
+        }
     }
 }

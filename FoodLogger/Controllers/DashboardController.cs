@@ -16,13 +16,16 @@ namespace FoodLogger.Controllers
         public async Task<IActionResult> Index()
         {
             var userFoods = await dashboardRepository.GetAllUserFoods();
+            var userRecipes = await dashboardRepository.GetAllUserRecipes();
 
             var dashboardViewModel = new DashboardViewModel()
             {
                 Foods = userFoods,
+                Recipes = userRecipes,
             };
 
             return View(dashboardViewModel);
         }
+
     }
 }

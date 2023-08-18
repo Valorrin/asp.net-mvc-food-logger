@@ -7,14 +7,11 @@
 <div class="dashboard-buttons">
     <button class="btn btn-primary" id="foodsButton">Foods</button>
     <button class="btn btn-primary" id="recipesButton">Recipes</button>
-    <a class="btn btn-primary" asp-area="" asp-controller="Food" asp-action="Create">Create Food</a>
-    <a class="btn btn-primary" asp-area="" asp-controller="Recipe" asp-action="Create">Create Recipe</a>
 </div>
 <div class="container">
     <div class="row">
         <div class="col-12">
             <div id="contentPlaceholder">
-                <!-- Placeholder for the partial views -->
             </div>
         </div>
     </div>
@@ -23,8 +20,14 @@
 @section scripts {
     <script>
         $(document).ready(function () {
-            // Initial view: Load foods
-            loadFoods();
+            var urlParams = new URLSearchParams(window.location.search);
+            var recipeAdded = urlParams.get('recipeAdded');
+
+            if (recipeAdded === 'true') {
+                loadRecipes(); // Load recipes if a new recipe was just added
+            } else {
+                loadFoods(); // Load foods by default
+            }
 
             // Handle button clicks
             $("#foodsButton").click(function () {

@@ -14,13 +14,6 @@
         <span asp-validation-for="Grams" class="text-danger"></span>
     </div>
     <div class="mb-3">
-        <label asp-for="FoodCategory">Category</label>
-        <select asp-for="FoodCategory" asp-items="@Html.GetEnumSelectList<FoodCategory>()" class="form-control">
-            <option>--Select--</option>
-        </select>
-        <span asp-validation-for="FoodCategory" class="text-danger"></span>
-    </div>
-    <div class="mb-3">
         <label asp-for="Calories">Calories</label>
         <input asp-for="Calories" class="form-control" placeholder="Calories">
         <span asp-validation-for="Calories" class="text-danger"></span>

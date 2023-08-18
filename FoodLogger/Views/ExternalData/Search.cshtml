@@ -5,7 +5,7 @@
     <button type="submit">Search</button>
 </form>
 
-<div class="container" >
+<div class="container">
     <div class="row">
         <div class="col-12">
             <table class="table table-bordered">
@@ -17,9 +17,12 @@
                         <th scope="col">Protein</th>
                         <th scope="col">Carbs</th>
                         <th scope="col">Fat</th>
+                        <th scope="col">Actions</th>
                     </tr>
                 </thead>
-                @{int total = 1;}
+                @{
+                    int total = 1;
+                }
                 @foreach (var food in Model.Foods)
                 {
                     <tbody>
@@ -30,9 +33,19 @@
                             <td>@food.Protein</td>
                             <td>@food.Carbs</td>
                             <td>@food.Fat</td>
+                            <td>
+                                <form asp-controller="ExternalData" asp-action="Create" method="post">
+                                    <input type="hidden" name="FoodToAdd.Name" value="@food.Name" />
+                                    <input type="hidden" name="FoodToAdd.Calories" value="@food.Calories" />
+                                    <input type="hidden" name="FoodToAdd.Protein" value="@food.Protein" />
+                                    <input type="hidden" name="FoodToAdd.Carbs" value="@food.Carbs" />
+                                    <input type="hidden" name="FoodToAdd.Fat" value="@food.Fat" />
+                                    <button type="submit" class="btn btn-success btn-sm">Add</button>
+                                </form>
+                            </td>
                         </tr>
                     </tbody>
-                }                
+                }
             </table>
         </div>
     </div>

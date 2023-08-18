@@ -58,6 +58,12 @@ namespace FoodLogger.Repository
             return saved > 0 ? true : false;
         }
 
+        public bool Update(DiaryEntry entry)
+        {
+            context.DiaryEntries.Update(entry);
+            return Save();
+        }
+
         public bool DeleteEntry(DiaryEntry entry)
         {
             context.DiaryEntries.Remove(entry);

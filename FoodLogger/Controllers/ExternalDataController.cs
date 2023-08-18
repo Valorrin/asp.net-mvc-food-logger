@@ -1,7 +1,12 @@
-﻿using FoodLogger.Models;
+﻿using FoodLogger.Data.Models;
+using FoodLogger.Interfaces;
+using FoodLogger.Models;
+using FoodLogger.Models.ExternalData;
+using FoodLogger.Repository;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json.Linq;
 using System.Linq;
+using System.Security.Claims;
 
 namespace FoodLogger.Controllers
 {
@@ -9,6 +14,12 @@ namespace FoodLogger.Controllers
     {
         private const string ApiKey = "a8da026f64f75fa53c487993d6481f63";
         private const string AppId = "53c01a24";
+
+        private readonly IFoodRepository foodRepository;
+        public ExternalDataController(IFoodRepository foodRepository)
+        {
+            this.foodRepository = foodRepository;
+        }
 
         public async Task<ActionResult> Search(string searchString)
         {
@@ -47,6 +58,40 @@ namespace FoodLogger.Controllers
                     return View("Error");
                 }
             }
+        }
+
+        [HttpPost]
+        public IActionResult Create(EdFoodViewModel foodToAdd)
+        {
+            if (ModelState.IsValid)
+            {
+                string currentUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+                // Map the FoodViewModel data to your Food model
+                var newFood = new Food
+                {
+                    Name = foodToAdd.Name,
+                    Grams = 100,
+                    Calories = foodToAdd.Calories,
+                    Protein = foodToAdd.Protein,
+                    Carbs = foodToAdd.Carbs,
+                    Fat = foodToAdd.Fat,
+                    AppUserId = currentUserId,
+                    
+                };
+
+                // Add the new food item to your database using your repository or context
+                foodRepository.Create(newFood);
+
+                TempData["SuccessMessage"] = "Food item added successfully.";
+                // You can redirect to a different page, show a success message, etc.
+                // For example, redirecting to a listing page for all foods
+                return RedirectToAction("Index", "Dashboard");
+            }
+
+            // If the model state is not valid, return to the same view
+            // You might want to handle this differently based on your application's needs
+            return View("Error");
         }
     }
 }

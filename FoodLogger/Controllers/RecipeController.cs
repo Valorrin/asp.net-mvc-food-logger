@@ -72,7 +72,17 @@ namespace FoodLogger.Controllers
             }
 
             recipeRepository.Create(newRecipe);
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", "Dashboard", new { recipeAdded = true });
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> Delete(int id)
+        {
+            var recipe = await recipeRepository.GetById(id);
+            if (recipe == null) { return View("Error"); }
+
+            recipeRepository.Delete(recipe);
+            return RedirectToAction("Index", "Dashboard");
         }
     }
 }

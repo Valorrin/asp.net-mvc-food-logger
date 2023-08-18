@@ -30,6 +30,8 @@ namespace FoodLogger.Data.Models
         [Range(FatMinValue, FatMaxValue)]
         public double Fat { get; set; }
 
+        public ICollection<DiaryEntry> DiaryEntries { get; set; }
+
         public FoodCategory? FoodCategory { get; set; }
 
         [ForeignKey("AppUser")]

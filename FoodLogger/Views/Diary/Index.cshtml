@@ -22,7 +22,7 @@
     <script>
         $(function () {
             $("#datepicker").datepicker({
-                dateFormat: "yy-mm-dd",
+                dateFormat: "dd-mm-yy",
                 showOtherMonths: true,
                 selectOtherMonths: true,
                 changeMonth: true,
@@ -46,16 +46,27 @@
                 }
             });
 
-            // Get the current date
-            var today = new Date();
-            var formattedToday = $.datepicker.formatDate("yy-mm-dd", today);
+            // Get the selected date from the URL parameter
+            var urlParams = new URLSearchParams(window.location.search);
+            var selectedDateFromUrl = urlParams.get("selectedDate");
 
-            // Automatically select today's date in the datepicker
-            $("#datepicker").datepicker("setDate", formattedToday);
+            console.log("selectedDateFromUrl:", selectedDateFromUrl);
 
-            // Update the links to use today's date
-            $("#addFoodLink").attr("href", $("#addFoodLink").data("url") + "?selectedDate=" + formattedToday);
-            $("#addRecipeLink").attr("href", $("#addRecipeLink").data("url") + "?selectedDate=" + formattedToday);
+            // If selectedDateFromUrl is not null, set the datepicker's selected date
+            if (selectedDateFromUrl) {
+                $("#datepicker").datepicker("setDate", selectedDateFromUrl);
+            } else {
+                // Get the current date
+                var today = new Date();
+                var formattedToday = $.datepicker.formatDate("yy-mm-dd", today);
+
+                // Automatically select today's date in the datepicker
+                $("#datepicker").datepicker("setDate", formattedToday);
+
+                // Update the links to use today's date
+                $("#addFoodLink").attr("href", $("#addFoodLink").data("url") + "?selectedDate=" + formattedToday);
+                $("#addRecipeLink").attr("href", $("#addRecipeLink").data("url") + "?selectedDate=" + formattedToday);
+            }
         });
     </script>
     <style>

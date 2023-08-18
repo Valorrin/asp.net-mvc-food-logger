@@ -67,7 +67,7 @@ namespace FoodLogger.Controllers
             };
 
             foodRepository.Create(food);
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", "Dashboard");
         }
 
         [HttpGet]
@@ -119,24 +119,15 @@ namespace FoodLogger.Controllers
             return RedirectToAction("Index");
         }
 
-        [HttpGet]
+        [HttpPost]
         public ActionResult Delete(int id) 
         {
             var food = foodRepository.GetById(id);
             if (food == null) { return View("Error"); }
 
-            return View(food);
-        }
-
-        [HttpPost, ActionName("Delete")]
-        public ActionResult DeleteFood(int id)
-        {
-            var food = foodRepository.GetById(id);
-            if (food == null) { return View("Error"); }
-
             foodRepository.Delete(food);
-
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", "Dashboard");
         }
+
     }
 }

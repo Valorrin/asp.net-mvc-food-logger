@@ -4,6 +4,7 @@ using FoodLogger.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FoodLogger.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230818172031_RevertedSetRestrictOnDeleting")]
+    partial class RevertedSetRestrictOnDeleting
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -109,7 +112,7 @@ namespace FoodLogger.Data.Migrations
 
                     b.HasIndex("AppUserId");
 
-                    b.ToTable("Diaries", (string)null);
+                    b.ToTable("Diaries");
                 });
 
             modelBuilder.Entity("FoodLogger.Data.Models.DiaryEntry", b =>
@@ -140,7 +143,7 @@ namespace FoodLogger.Data.Migrations
 
                     b.HasIndex("RecipeId");
 
-                    b.ToTable("DiaryEntries", (string)null);
+                    b.ToTable("DiaryEntries");
                 });
 
             modelBuilder.Entity("FoodLogger.Data.Models.Food", b =>
@@ -186,7 +189,7 @@ namespace FoodLogger.Data.Migrations
 
                     b.HasIndex("RecipeId");
 
-                    b.ToTable("Foods", (string)null);
+                    b.ToTable("Foods");
                 });
 
             modelBuilder.Entity("FoodLogger.Data.Models.Recipe", b =>
@@ -209,7 +212,7 @@ namespace FoodLogger.Data.Migrations
 
                     b.HasIndex("AppUserId");
 
-                    b.ToTable("Recipes", (string)null);
+                    b.ToTable("Recipes");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>

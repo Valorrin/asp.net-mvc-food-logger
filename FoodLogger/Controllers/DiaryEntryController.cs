@@ -2,6 +2,7 @@
 using FoodLogger.Interfaces;
 using FoodLogger.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Globalization;
 using System.Security.Claims;
 
@@ -24,17 +25,15 @@ namespace FoodLogger.Controllers
         }
 
         [HttpGet]
-        public IActionResult AddFoodEntry(string selectedDate)
+        public IActionResult AddFoodEntry(DateTime selectedDate)
         {
-            DateTime.TryParseExact(selectedDate, "yyyy-MM-dd", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime diaryDate);
-
             var userId = httpContextAccessor.HttpContext.User.GetUserId();
-            var diaryId = diaryRepository.GetDiaryId(userId, diaryDate.Date);
+            var diaryId = diaryRepository.GetDiaryId(userId, selectedDate.Date);
             var availableFoods = foodRepository.GetAllFoods();
 
             var entryViewModel = new DiaryEntryViewModel
             {
-                DiaryDate = diaryDate,
+                DiaryDate = selectedDate,
                 AvailableFoods = availableFoods.ToList(),
                 AppUserId = userId,
                 DiaryId = diaryId
@@ -57,7 +56,7 @@ namespace FoodLogger.Controllers
 
                 diaryRepository.AddDiaryEntry(newDiaryEntry);
 
-                return RedirectToAction("Index", "Diary");
+                return RedirectToAction("Index", "Diary", new { selectedDate = entryViewModel.DiaryDate });
             }
 
             entryViewModel.AvailableFoods = foodRepository.GetAllFoods().ToList();
@@ -65,17 +64,17 @@ namespace FoodLogger.Controllers
         }
 
         [HttpGet]
-        public IActionResult AddRecipeEntry(string selectedDate)
+        public IActionResult AddRecipeEntry(DateTime selectedDate)
         {
-            DateTime.TryParseExact(selectedDate, "yyyy-MM-dd", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime diaryDate);
+          //  DateTime.TryParseExact(selectedDate, "yyyy-MM-dd", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime diaryDate);
 
             var userId = httpContextAccessor.HttpContext.User.GetUserId();
-            var diaryId = diaryRepository.GetDiaryId(userId, diaryDate.Date);
+            var diaryId = diaryRepository.GetDiaryId(userId, selectedDate.Date);
             var availableRecipes = recipeRepository.GetAllRecipes();
 
             var entryViewModel = new DiaryEntryViewModel
             {
-                DiaryDate = diaryDate,
+                DiaryDate = selectedDate,
                 AvailableRecipes = availableRecipes.ToList(),
                 AppUserId = userId,
                 DiaryId = diaryId
@@ -98,15 +97,70 @@ namespace FoodLogger.Controllers
 
                 diaryRepository.AddDiaryEntry(newDiaryEntry);
 
-                return RedirectToAction("Index", "Diary");
+                return RedirectToAction("Index", "Diary", new { selectedDate = entryViewModel.DiaryDate.Date });
             }
 
             entryViewModel.AvailableRecipes = recipeRepository.GetAllRecipes().ToList();
             return View(entryViewModel);
         }
 
+        public IActionResult Edit(int id)
+        {
+            var entry = diaryRepository.GetDiaryEntryById(id);
+
+            if (entry == null)
+            {
+                return NotFound();
+            }
+
+            EditEntryViewModel entryViewModel;
+
+            if (entry.FoodId != null)
+            {
+                entryViewModel = new EditEntryViewModel
+                {
+                    Id = id,
+                    Quantity = entry.Quantity,
+                   // Name = entry.Food.Name,
+                };
+            }
+            else
+            {
+                entryViewModel = new EditEntryViewModel
+                {
+                    Id = id,
+                    Quantity = entry.Quantity,
+                  //  Name = entry.Recipe.Name,
+                };
+            }
+
+
+            return View(entryViewModel);
+        }
+
         [HttpPost]
-        public IActionResult Delete(int id , string selectedDate)
+        public IActionResult Edit(EditEntryViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            var entry = diaryRepository.GetDiaryEntryById(model.Id);
+
+            if (entry == null)
+            {
+                return NotFound();
+            }
+
+            entry.Quantity = model.Quantity;
+            diaryRepository.Update(entry);
+
+            return RedirectToAction("Index", "Diary");
+        }
+
+        [HttpPost]
+        public IActionResult Delete(int id , DateTime selectedDate)
         {
             var entryToDelete = diaryRepository.GetDiaryEntryById(id);
 
@@ -116,6 +170,8 @@ namespace FoodLogger.Controllers
             }
 
             diaryRepository.DeleteEntry(entryToDelete);
+
+
             return RedirectToAction("Index", "Diary", new { selectedDate }); 
         }
     }

@@ -4,6 +4,7 @@
 <form asp-controller="DiaryEntry" asp-action="AddRecipeEntry" method="post">
     <input type="hidden" id="AppUserId" name="AppUserID" asp-for="AppUserId"></input>
     <input type="hidden" asp-for="AvailableRecipes" value="@Json.Serialize(Model.AvailableRecipes)">
+    <input type="hidden" asp-for="DiaryDate" value="@Model.DiaryDate.Date">
     <input type="hidden" asp-for="DiaryId" />
 
     <label for="selectedRecipeId">Recipe:</label>

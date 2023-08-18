@@ -10,6 +10,8 @@ namespace FoodLogger.Interfaces
         DiaryEntry GetDiaryEntryById(int id);
         public int GetDiaryId(string userId, DateTime date);
         Diary GetDiaryByDate(string userId, DateTime date);
+
+        public bool Update(DiaryEntry entry);
         public bool DeleteEntry(DiaryEntry entry);
     }
 }
