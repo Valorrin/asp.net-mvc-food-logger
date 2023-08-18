@@ -38,11 +38,11 @@
             <td>
                 @if (entry.FoodId != null)
                 {
-                    @entry.Food.Calories
+                    @entry.Food.Calories.ToString("0.00")
                }
                 @if (entry.RecipeId != null)
                 {
-                    @entry.Recipe.CalculateCalories
+                    @entry.Recipe.CalculateCalories.ToString("0.00")
                }
             </td>
             <td>

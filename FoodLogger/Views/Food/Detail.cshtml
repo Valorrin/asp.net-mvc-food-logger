@@ -1,49 +1,99 @@
-﻿@model Food
-
-<section class="performance-facts">
-    <header class="performance-facts__header">
-        <h1 class="performance-facts__title">@Model.Name</h1>
-        <h2 class="performance-facts__title">Nutrition Facts</h2>
+﻿<section class="nutrition-facts">
+    <header class="nutrition-facts__header">
+        <h1 class="nutrition-facts__title">@Model.Name</h1>
+        <h2 class="nutrition-facts__subtitle">Nutrition Facts</h2>
     </header>
-    <table class="performance-facts__table">
+    <table class="nutrition-facts__table">
         <thead>
             <tr>
                 <th colspan="3" class="small-info">
-                    Per 100g
+                    Amount Per 100g
                 </th>
             </tr>
         </thead>
         <tbody>
             <tr>
-                <th colspan="2">
-                    <b>Calories</b>
-                    <br>
-                    @Model.Calories
-                </th>
+                <td colspan="3">
+                    <b>Calories</b><br>
+                    <span class="value">@Model.Calories.ToString("0.00")</span> kcal
+                </td>
             </tr>
             <tr class="thick-row">
+                <td colspan="3"></td>
             </tr>
             <tr>
-                <th colspan="2">
-                    <b>Fat</b>
-                    <br>
-                    @Model.Fat
-                </th>
+                <td colspan="3">
+                    <b>Fat</b><br>
+                    <span class="value">@Model.Fat.ToString("0.00")</span> g
+                </td>
             </tr>
             <tr>
-                <th colspan="2">
-                    <b>Carbohydrate</b>
-                    <br>
-                    @Model.Carbs
-                </th>
+                <td colspan="3">
+                    <b>Carbohydrate</b><br>
+                    <span class="value">@Model.Carbs.ToString("0.00")</span> g
+                </td>
             </tr>
             <tr class="thick-end">
-                <th colspan="2">
-                    <b>Protein</b>
-                    <br>
-                    @Model.Protein
-                </th>
+                <td colspan="3">
+                    <b>Protein</b><br>
+                    <span class="value">@Model.Protein.ToString("0.00")</span> g
+                </td>
             </tr>
         </tbody>
     </table>
 </section>
+<style>
+    .nutrition-facts {
+        font-family: Arial, sans-serif;
+        border: 2px solid #ddd;
+        padding: 20px;
+        max-width: 400px;
+        margin: 0 auto;
+        background-color: #f9f9f9;
+    }
+
+    .nutrition-facts__header {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    .nutrition-facts__title {
+        font-size: 24px;
+        margin: 0;
+    }
+
+    .nutrition-facts__subtitle {
+        font-size: 18px;
+        margin: 0;
+    }
+
+    .nutrition-facts__table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+        .nutrition-facts__table th,
+        .nutrition-facts__table td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: center;
+        }
+
+    .small-info {
+        font-size: 12px;
+    }
+
+    .thick-row {
+        height: 10px;
+    }
+
+    .thick-end {
+        height: 15px;
+    }
+
+    .value {
+        font-size: 18px;
+        color: #333;
+        font-weight: bold;
+    }
+</style>

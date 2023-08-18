@@ -21,8 +21,6 @@ namespace FoodLogger.Models
 
         public double Fat { get; set; }
 
-        public FoodCategory FoodCategory { get; set; }
-
         public string AppUserId { get; set; }
 
         public int? RecipeId { get; set; }

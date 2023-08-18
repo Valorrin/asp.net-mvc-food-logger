@@ -20,7 +20,7 @@
             <tr>
                 <th scope="row">@(total++)</th>
                 <td>@food.Name</td>
-                <td>@food.Calories kcal</td>
+                <td>@food.Calories.ToString("0.00") kcal</td>
                 <td>
                     <a class="btn btn-info btn-sm" asp-controller="Food" asp-action="Detail" asp-route-id="@food.Id"><i class="far fa-eye"></i> Detail</a>
                     @if (User.Identity.IsAuthenticated)

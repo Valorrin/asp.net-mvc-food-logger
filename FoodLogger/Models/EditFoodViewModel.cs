@@ -20,6 +20,5 @@ namespace FoodLogger.Models
 
         public double Fat { get; set; }
 
-        public virtual FoodCategory? FoodCategory { get; set; }
     }
 }

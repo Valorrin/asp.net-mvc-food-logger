@@ -53,16 +53,20 @@ namespace FoodLogger.Controllers
                 return View(foodVM);
             }
 
+            double caloriesPer100Grams = (foodVM.Calories / foodVM.Grams) * 100;
+            double proteinPer100Grams = (foodVM.Protein / foodVM.Grams) * 100;
+            double carbsPer100Grams = (foodVM.Carbs / foodVM.Grams) * 100;
+            double fatPer100Grams = (foodVM.Fat / foodVM.Grams) * 100;
+
             var food = new Food
             {
                 Id = foodVM.Id,
                 Name = foodVM.Name,
-                Grams = foodVM.Grams,
-                Calories = foodVM.Calories,
-                Protein = foodVM.Protein,
-                Carbs = foodVM.Carbs,
-                Fat = foodVM.Fat,
-                FoodCategory = foodVM.FoodCategory,
+                Grams = 100,
+                Calories = caloriesPer100Grams,
+                Protein = proteinPer100Grams,
+                Carbs = carbsPer100Grams,
+                Fat = fatPer100Grams,
                 AppUserId = foodVM.AppUserId,
             };
 
@@ -85,8 +89,6 @@ namespace FoodLogger.Controllers
                 Carbs = food.Carbs,
                 Protein = food.Protein,
                 Fat = food.Fat,
-                FoodCategory = food.FoodCategory
-
             };
 
             return View(foodVM);
@@ -101,22 +103,26 @@ namespace FoodLogger.Controllers
                 return View("Edit", foodVM);
             }
 
+            double caloriesPer100Grams = (foodVM.Calories / foodVM.Grams) * 100;
+            double proteinPer100Grams = (foodVM.Protein / foodVM.Grams) * 100;
+            double carbsPer100Grams = (foodVM.Carbs / foodVM.Grams) * 100;
+            double fatPer100Grams = (foodVM.Fat / foodVM.Grams) * 100;
+
             var food = new  Food
             {
                 Id = foodVM.Id,
                 Name = foodVM.Name,
-                Grams = foodVM.Grams,
-                Calories = foodVM.Calories,
-                Carbs = foodVM.Carbs,
-                Protein = foodVM.Protein,
-                Fat = foodVM.Fat,
-                FoodCategory = foodVM.FoodCategory
+                Grams = 100,
+                Calories = caloriesPer100Grams,
+                Carbs = carbsPer100Grams,
+                Protein = proteinPer100Grams,
+                Fat = fatPer100Grams,
                               
             };
 
             foodRepository.Update(food);
 
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", "Dashboard");
         }
 
         [HttpPost]
