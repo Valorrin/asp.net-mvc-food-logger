@@ -21,15 +21,16 @@ namespace FoodLogger.Repository
             return Save();
         }
 
+        public bool Update(Food food)
+        {
+            context.Foods.Update(food);
+            return Save();
+        }
+
         public bool Delete(Food food)
         {
             context.Foods.Remove(food);
             return Save();
-        }
-
-        public async Task<IEnumerable<Food>> GetAll()
-        {
-            return await context.Foods.ToListAsync();
         }
 
         public IEnumerable<Food> GetAllFoods()
@@ -37,25 +38,25 @@ namespace FoodLogger.Repository
             return context.Foods.ToList();
         }
 
+        public async Task<IEnumerable<Food>> GetAllAsync()
+        {
+            return await context.Foods.ToListAsync();
+        }
+
         public Food GetById(int id)
         {
             return  context.Foods.FirstOrDefault(f => f.Id == id);
         }
-        public bool Update(Food food)
+
+        public async Task<IEnumerable<Food>> GetAllFoodsForUser(string appUserId)
         {
-            context.Foods.Update(food);
-            return Save();
+            return await context.Foods.Where(f => f.AppUserId == appUserId).ToListAsync();
         }
 
         public bool Save()
         {
             var saved = context.SaveChanges();
             return saved > 0 ? true : false;
-        }
-
-        public async Task<IEnumerable<Food>> GetAllFoodsForUser(string appUserId)
-        {
-            return await context.Foods.Where(f => f.AppUserId == appUserId).ToListAsync();
         }
     }
 }

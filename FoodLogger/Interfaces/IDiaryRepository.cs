@@ -4,16 +4,27 @@ namespace FoodLogger.Interfaces
 {
     public interface IDiaryRepository
     {
-        List<DiaryEntry> GetDiaryEntriesForDate(DateTime? date, string userId);
         public bool AddDiary(Diary diary);
-        public bool AddDiaryEntry(DiaryEntry diaryEntry);
-        DiaryEntry GetDiaryEntryById(int id);
-        public int GetDiaryId(string userId, DateTime date);
+
         Diary GetDiaryByDate(string userId, DateTime date);
 
-        public bool Update(DiaryEntry entry);
-        public bool DeleteEntry(DiaryEntry entry);
+        public int GetDiaryId(string userId, DateTime date);
+
+
+
+        public bool AddDiaryEntry(DiaryEntry diaryEntry);
+
+        List<DiaryEntry> GetDiaryEntriesForDate(DateTime? date, string userId);
+
+        DiaryEntry GetDiaryEntryById(int id);
+
         List<DiaryEntry> GetAllEntriesByFoodId(int id);
+
         List<DiaryEntry> GetAllEntriesByRecipeId(int id);
+
+        public bool Update(DiaryEntry entry);
+
+        public bool DeleteEntry(DiaryEntry entry);
+
     }
 }

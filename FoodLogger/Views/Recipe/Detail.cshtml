@@ -1,7 +1,6 @@
-﻿@model Food
+﻿@model Recipe
 
 <link rel="stylesheet" href="~/css/styles.css" />
-
 <section class="nutrition-facts">
     <header class="nutrition-facts__header">
         <h1 class="nutrition-facts__title">@Model.Name</h1>
@@ -11,7 +10,8 @@
         <thead>
             <tr>
                 <th colspan="3" class="small-info">
-                    Amount Per 100g
+                    <b>Total Grams</b><br>
+                    <span class="value">@Model.CalculateGrams.ToString("0.00")</span> g
                 </th>
             </tr>
         </thead>
@@ -19,7 +19,7 @@
             <tr>
                 <td colspan="3">
                     <b>Calories</b><br>
-                    <span class="value">@Model.Calories.ToString("0.00")</span> kcal
+                    <span class="value">@Model.CalculateCalories.ToString("0.00")</span> kcal
                 </td>
             </tr>
             <tr class="thick-row">
@@ -28,21 +28,22 @@
             <tr>
                 <td colspan="3">
                     <b>Fat</b><br>
-                    <span class="value">@Model.Fat.ToString("0.00")</span> g
+                    <span class="value">@Model.CalculateFats.ToString("0.00")</span> g
                 </td>
             </tr>
             <tr>
                 <td colspan="3">
                     <b>Carbohydrate</b><br>
-                    <span class="value">@Model.Carbs.ToString("0.00")</span> g
+                    <span class="value">@Model.CalculateCarbs.ToString("0.00")</span> g
                 </td>
             </tr>
             <tr class="thick-end">
                 <td colspan="3">
                     <b>Protein</b><br>
-                    <span class="value">@Model.Protein.ToString("0.00")</span> g
+                    <span class="value">@Model.CalculateProtein.ToString("0.00")</span> g
                 </td>
             </tr>
         </tbody>
+
     </table>
 </section>

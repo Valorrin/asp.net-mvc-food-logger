@@ -2,6 +2,9 @@
 
 <h2>Diary</h2>
 
+
+<link rel="stylesheet" href="~/css/styles.css" />
+
 <div class="date-picker-container">
     <label for="datepicker">Select Date: </label>
     <input type="text" id="datepicker" autocomplete="off" >
@@ -19,86 +22,5 @@
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-    <script>
-        $(function () {
-            $("#datepicker").datepicker({
-                dateFormat: "yy-mm-dd",
-                showOtherMonths: true,
-                selectOtherMonths: true,
-                changeMonth: true,
-                changeYear: true,
-                maxDate: 0, // Allow only past dates
-                onSelect: function (selectedDate) {
-                    // Update the "Add Food" and "Add Recipe" links with selected date
-                    var addFoodLink = $("#addFoodLink");
-                    var addRecipeLink = $("#addRecipeLink");
-
-                    var addFoodUrl = addFoodLink.data("url");
-                    var addRecipeUrl = addRecipeLink.data("url");
-
-
-                    addFoodLink.attr("href", addFoodUrl + "?selectedDate=" + selectedDate);
-                    addRecipeLink.attr("href", addRecipeUrl + "?selectedDate=" + selectedDate);
-
-                    // Fetch and update diary entries using AJAX
-                    $.get("/Diary/LoadDiary", { selectedDate: selectedDate }, function (data) {
-                        $(".entry-list-container").html(data);
-                    });
-                }
-            });
-
-            // Get the selected date from the URL parameter
-            var urlParams = new URLSearchParams(window.location.search);
-            var selectedDateFromUrl = urlParams.get("selectedDate");
-
-
-            // If selectedDateFromUrl is not null, set the datepicker's selected date
-            if (selectedDateFromUrl) {
-
-                var decodedDate = decodeURIComponent(selectedDateFromUrl);
-                $("#datepicker").datepicker("setDate", new Date(decodedDate));
-
-                // Update the links to use the selected date from the url
-                $("#addFoodLink").attr("href", $("#addFoodLink").data("url") + "?selectedDate=" + selectedDateFromUrl);
-                $("#addRecipeLink").attr("href", $("#addRecipeLink").data("url") + "?selectedDate=" + selectedDateFromUrl);
-            } else {
-                // Get the current date
-                var today = new Date();
-                var formattedToday = $.datepicker.formatDate("yy-mm-dd", today);
-
-                // Automatically select today's date in the datepicker
-                $("#datepicker").datepicker("setDate", formattedToday);
-
-                // Update the links to use today's date
-                $("#addFoodLink").attr("href", $("#addFoodLink").data("url") + "?selectedDate=" + formattedToday);
-                $("#addRecipeLink").attr("href", $("#addRecipeLink").data("url") + "?selectedDate=" + formattedToday);
-            }
-        });
-    </script>
-    <style>
-        .date-picker-container {
-            margin-bottom: 20px;
-        }
-
-        .entry-list {
-            list-style-type: none;
-            padding: 0;
-        }
-
-        .entry {
-            border: 1px solid #ddd;
-            padding: 10px;
-            margin-bottom: 10px;
-            background-color: #f9f9f9;
-        }
-
-        .entry-details {
-            font-weight: bold;
-        }
-
-        .entry-date {
-            color: #888;
-            font-size: 12px;
-        }
-    </style>
+    <script src="~/js/site.js"></script>
 }

@@ -20,30 +20,41 @@ namespace FoodLogger.Repository
             return Save();
         }
 
+        public bool Update(Recipe recipe)
+        {
+            context.Update(recipe);
+            return Save();
+        }
+
         public bool Delete(Recipe recipe)
         {
             context.Remove(recipe);
             return Save();
         }
 
-        public async Task<IEnumerable<Recipe>> GetAll()
+        public Recipe GetById(int id)
+        {
+            return context.Recipes.Include(r => r.Foods).FirstOrDefault(x => x.Id == id);
+        }
+
+        public async Task<Recipe> GetByIdAsync(int id)
+        {
+            return await context.Recipes.Include(r => r.Foods).FirstOrDefaultAsync(x => x.Id == id);
+        }
+
+        public async Task<IEnumerable<Recipe>> GetAllAsync()
         {
             return await context.Recipes.Include(r => r.Foods).ToListAsync();
         }
+
         public IEnumerable<Recipe> GetAllRecipes()
         { 
-            return context.Recipes.ToList();
+            return context.Recipes.Include(r => r.Foods).ToList();
         }
 
-        public async Task<Recipe> GetById(int id)
+        public async Task<IEnumerable<Recipe>> GetAllRecipesForUser(string appUserId)
         {
-            return await context.Recipes.Include(r=>r.Foods).FirstOrDefaultAsync(x => x.Id == id);
-        }
-
-        public bool Update(Recipe recipe)
-        {
-            context.Update(recipe);
-            return Save();
+            return await context.Recipes.Include(r => r.Foods).Where(r => r.AppUserId == appUserId).ToListAsync();
         }
 
         public Ingredient CreateIngredient(Food food)
@@ -64,11 +75,6 @@ namespace FoodLogger.Repository
         {
             var saved = context.SaveChanges();
             return saved > 0 ? true : false;
-        }
-
-        public async Task<IEnumerable<Recipe>> GetAllRecipesForUser(string appUserId)
-        {
-            return await context.Recipes.Where(r=>r.AppUserId == appUserId).ToListAsync();
         }
 
 

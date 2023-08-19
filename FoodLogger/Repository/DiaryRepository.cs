@@ -14,17 +14,7 @@ namespace FoodLogger.Repository
             this.context = context;
         }
 
-        public List<DiaryEntry> GetDiaryEntriesForDate(DateTime? date, string userId)
-        {
-            var diaryEntries = context.DiaryEntries
-                .Include(de => de.Food)
-                .Include(de => de.Recipe)
-                    .ThenInclude(r => r.Foods)
-                .Where(de => de.Diary.Date == date && de.Diary.AppUserId == userId)
-                .ToList();
-
-            return diaryEntries;
-        }
+   
 
         public bool AddDiary(Diary diary)
         {
@@ -32,30 +22,21 @@ namespace FoodLogger.Repository
             return Save();
         }
 
-        public bool AddDiaryEntry(DiaryEntry diaryEntry) 
-        {
-            context.DiaryEntries.Add(diaryEntry);
-            return Save();
-        }
-
         public Diary GetDiaryByDate(string userId, DateTime date)
         {
             return context.Diaries.FirstOrDefault(d => d.AppUserId == userId && d.Date == date);
         }
-        public DiaryEntry GetDiaryEntryById(int id)
-        {
-            return context.DiaryEntries.FirstOrDefault(d => d.Id == id);
-        }
-
+ 
         public int GetDiaryId(string appUserId, DateTime date)
         {
             return context.Diaries.FirstOrDefault(d => d.AppUserId == appUserId && d.Date == date).Id;
         }
 
-        public bool Save()
+
+        public bool AddDiaryEntry(DiaryEntry diaryEntry)
         {
-            var saved = context.SaveChanges();
-            return saved > 0 ? true : false;
+            context.DiaryEntries.Add(diaryEntry);
+            return Save();
         }
 
         public bool Update(DiaryEntry entry)
@@ -68,6 +49,11 @@ namespace FoodLogger.Repository
         {
             context.DiaryEntries.Remove(entry);
             return Save();
+        }
+
+        public DiaryEntry GetDiaryEntryById(int id)
+        {
+            return context.DiaryEntries.FirstOrDefault(d => d.Id == id);
         }
 
         public List<DiaryEntry> GetAllEntriesByFoodId(int id)
@@ -89,5 +75,24 @@ namespace FoodLogger.Repository
 
             return diaryEntries;
         }
+
+        public List<DiaryEntry> GetDiaryEntriesForDate(DateTime? date, string userId)
+        {
+            var diaryEntries = context.DiaryEntries
+                .Include(de => de.Food)
+                .Include(de => de.Recipe)
+                    .ThenInclude(r => r.Foods)
+                .Where(de => de.Diary.Date == date && de.Diary.AppUserId == userId)
+                .ToList();
+
+            return diaryEntries;
+        }
+
+        public bool Save()
+        {
+            var saved = context.SaveChanges();
+            return saved > 0 ? true : false;
+        }
+
     }
 }

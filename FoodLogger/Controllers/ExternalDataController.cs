@@ -21,6 +21,7 @@ namespace FoodLogger.Controllers
             this.foodRepository = foodRepository;
         }
 
+        [HttpGet]
         public async Task<ActionResult> Search(string searchString)
         {
             string baseUri = $"https://api.edamam.com/api/food-database/v2/parser?q=&app_id={AppId}&app_key={ApiKey}&ingr={searchString}&nutrition-type=cooking";
@@ -67,7 +68,6 @@ namespace FoodLogger.Controllers
             {
                 string currentUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-                // Map the FoodViewModel data to your Food model
                 var newFood = new Food
                 {
                     Name = foodToAdd.Name,
@@ -80,17 +80,12 @@ namespace FoodLogger.Controllers
                     
                 };
 
-                // Add the new food item to your database using your repository or context
                 foodRepository.Create(newFood);
 
                 TempData["SuccessMessage"] = "Food item added successfully.";
-                // You can redirect to a different page, show a success message, etc.
-                // For example, redirecting to a listing page for all foods
+
                 return RedirectToAction("Index", "Dashboard");
             }
-
-            // If the model state is not valid, return to the same view
-            // You might want to handle this differently based on your application's needs
             return View("Error");
         }
     }

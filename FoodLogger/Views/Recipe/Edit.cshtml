@@ -1,0 +1,10 @@
+﻿@model EditRecipeViewModel
+
+<form method="post" asp-action="Edit">
+    <div class="mb-3">
+        <label asp-for="Name">Recipe Name</label>
+        <input asp-for="Name" class="form-control" placeholder="Name">
+        <span asp-validation-for="Name" class="text-danger"></span>
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>

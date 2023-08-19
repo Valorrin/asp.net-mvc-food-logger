@@ -58,7 +58,7 @@ namespace FoodLogger.Tests
             // Arrange
             var recipeId = 1;
             var recipe = new Recipe { Id = recipeId };
-            _recipeRepositoryMock.Setup(repo => repo.GetById(recipeId)).ReturnsAsync(recipe);
+            _recipeRepositoryMock.Setup(repo => repo.GetByIdAsync(recipeId)).ReturnsAsync(recipe);
             _diaryRepositoryMock.Setup(repo => repo.GetAllEntriesByRecipeId(recipeId)).Returns(new List<DiaryEntry>());
 
             // Act

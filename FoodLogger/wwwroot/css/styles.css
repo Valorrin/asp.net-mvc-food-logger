@@ -1,0 +1,92 @@
+﻿.nutrition-facts {
+    font-family: Arial, sans-serif;
+    border: 2px solid #ddd;
+    padding: 20px;
+    max-width: 400px;
+    margin: 0 auto;
+    background-color: #f9f9f9;
+}
+
+.nutrition-facts__header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.nutrition-facts__title {
+    font-size: 24px;
+    margin: 0;
+}
+
+.nutrition-facts__subtitle {
+    font-size: 18px;
+    margin: 0;
+}
+
+.nutrition-facts__table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+    .nutrition-facts__table th,
+    .nutrition-facts__table td {
+        border: 1px solid #ddd;
+        padding: 8px;
+        text-align: center;
+    }
+
+.small-info {
+    font-size: 12px;
+}
+
+.thick-row {
+    height: 10px;
+}
+
+.thick-end {
+    height: 15px;
+}
+
+.value {
+    font-size: 18px;
+    color: #333;
+    font-weight: bold;
+}
+
+.date-picker-container {
+    margin-bottom: 20px;
+}
+
+.entry-list {
+    list-style-type: none;
+    padding: 0;
+}
+
+.entry {
+    border: 1px solid #ddd;
+    padding: 10px;
+    margin-bottom: 10px;
+    background-color: #f9f9f9;
+}
+
+.entry-details {
+    font-weight: bold;
+}
+
+.entry-date {
+    color: #888;
+    font-size: 12px;
+}
+.button-group {
+    display: flex;
+    gap: 8px;
+}
+
+.total-row {
+    background-color: #f3f3f3;
+}
+
+    .total-row strong {
+        font-weight: bold;
+        color: #333;
+        font-size: 1.1rem;
+    }

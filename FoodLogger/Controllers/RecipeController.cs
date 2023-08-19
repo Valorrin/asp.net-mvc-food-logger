@@ -5,6 +5,7 @@ using FoodLogger.Repository;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
 
 namespace FoodLogger.Controllers
@@ -16,27 +17,34 @@ namespace FoodLogger.Controllers
         private readonly IRecipeRepository recipeRepository;
         private readonly IFoodRepository foodRepository;
         private readonly IDiaryRepository diaryRepository;
+        private readonly IRecipeService recipeService;
         private readonly IHttpContextAccessor httpContextAccessor;
 
         public RecipeController(IRecipeRepository recipeRepository, IHttpContextAccessor httpContextAccessor, 
-            IFoodRepository foodRepository, IDiaryRepository diaryRepository)
+            IFoodRepository foodRepository, IDiaryRepository diaryRepository, IRecipeService recipeService)
         {
             this.recipeRepository = recipeRepository;
             this.httpContextAccessor = httpContextAccessor;
             this.foodRepository = foodRepository;
             this.diaryRepository = diaryRepository;
+            this.recipeService = recipeService;
         }
 
+        [HttpGet]
         public async Task<IActionResult> Index()
         {
-            var recipes = await recipeRepository.GetAll();
+            var recipes = await recipeRepository.GetAllAsync();
+
             return View(recipes);
         }
 
+        [HttpGet]
         public async Task<IActionResult> GetRecipesPartial()
         {
             var appUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
             var recipes = await recipeRepository.GetAllRecipesForUser(appUserId);
+
             return PartialView("_RecipesPartial", recipes);
         }
 
@@ -88,25 +96,76 @@ namespace FoodLogger.Controllers
             return RedirectToAction("Index", "Dashboard", new { recipeAdded = true });
         }
 
+        [HttpGet]
+        public IActionResult Edit(int id)
+        {
+            var recipe = recipeRepository.GetById(id);
+
+            if (recipe == null) { return View("Error"); }
+
+            var recipeVM = new EditRecipeViewModel
+            {
+                Id = recipe.Id,
+                Name = recipe.Name,
+
+            };
+
+            return View(recipeVM);
+        }
+
+        [HttpPost]
+        public IActionResult Edit(EditRecipeViewModel recipeVM)
+        {
+            if (!ModelState.IsValid)
+            {
+                ModelState.AddModelError("", "Failed to edit club");
+                return View("Edit", recipeVM);
+            }
+
+            var existingRecipe = recipeRepository.GetById(recipeVM.Id);
+
+            if (existingRecipe == null)
+            {
+                return NotFound();
+            }
+
+            existingRecipe.Name = recipeVM.Name;
+
+            recipeRepository.Save();
+
+            return RedirectToAction("Index", "Dashboard", new { recipeAdded = true });
+        }
+
+        [HttpGet]
+        public IActionResult Detail(int id)
+        {
+            var recipe = recipeRepository.GetById(id);
+
+            if (recipe == null)
+            {
+                return NotFound();
+            }
+
+            return View(recipe);
+        }
+
         [HttpPost]
         public async Task<ActionResult> Delete(int id)
         {
-            var recipe = await recipeRepository.GetById(id);
+            var recipe = await recipeRepository.GetByIdAsync(id);
+
             if (recipe == null) { return View("Error"); }
 
-            if (HasAssociatedDiaryEntries(recipe))
+            if (recipeService.HasAssociatedDiaryEntries(recipe))
             {
                 TempData["ErrorMessage"] = "Cannot delete this recipe. It is associated with diary entry.";
-                return RedirectToAction("Index", "Dashboard");
+                return RedirectToAction("Index", "Dashboard", new { recipeAdded = true });
             }
 
             recipeRepository.Delete(recipe);
-            return RedirectToAction("Index", "Dashboard");
-        }
-        private bool HasAssociatedDiaryEntries(Recipe recipe)
-        {
 
-            return diaryRepository.GetAllEntriesByRecipeId(recipe.Id).Any();
+            return RedirectToAction("Index", "Dashboard", new { recipeAdded = true });
         }
+
     }
 }

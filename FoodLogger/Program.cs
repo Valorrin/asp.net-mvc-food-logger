@@ -3,6 +3,7 @@ using FoodLogger.Data.Migrations;
 using FoodLogger.Data.Models;
 using FoodLogger.Interfaces;
 using FoodLogger.Repository;
+using FoodLogger.Services;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -16,6 +17,9 @@ builder.Services.AddScoped<IRecipeRepository, RecipeRepository>();
 builder.Services.AddScoped<IDashboardRepository, DashboardRepository>();
 builder.Services.AddScoped<IDiaryRepository, DiaryRepository>();
 builder.Services.AddScoped<IStatisticsRepository, StatisticsRepository>();
+builder.Services.AddScoped<IDiaryService, DiaryService>();
+builder.Services.AddScoped<IFoodService, FoodService >();
+builder.Services.AddScoped<IRecipeService, RecipeService>();
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
@@ -44,11 +48,9 @@ if (args.Length == 1 && args[0].ToLower() == "seeddata")
     //Seed.SeedData(app);
 }
 
-// Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
 

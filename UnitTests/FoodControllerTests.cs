@@ -101,7 +101,7 @@ namespace FoodLogger.Tests
         public async Task Index_ReturnsViewWithFoods()
         {
             var foods = new List<Food> { new Food(), new Food() };
-            foodRepositoryMock.Setup(repo => repo.GetAll()).ReturnsAsync(foods);
+            foodRepositoryMock.Setup(repo => repo.GetAllAsync()).ReturnsAsync(foods);
 
             var result = await controller.Index() as ViewResult;
 

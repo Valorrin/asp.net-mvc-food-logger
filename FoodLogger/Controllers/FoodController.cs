@@ -3,6 +3,7 @@ using FoodLogger.Data.Models;
 using FoodLogger.Interfaces;
 using FoodLogger.Models;
 using FoodLogger.Repository;
+using FoodLogger.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
@@ -14,34 +15,32 @@ namespace FoodLogger.Controllers
     {
         private readonly IFoodRepository foodRepository;
         private readonly IDiaryRepository diaryRepository;
+        private readonly IFoodService foodService;
         private readonly IHttpContextAccessor httpContextAccessor;
 
-        public FoodController(IFoodRepository foodRepository, IHttpContextAccessor httpContextAccessor, IDiaryRepository diaryRepository)
+        public FoodController(IFoodRepository foodRepository, IHttpContextAccessor httpContextAccessor, 
+            IDiaryRepository diaryRepository, IFoodService foodService)
         {
             this.foodRepository = foodRepository;
             this.httpContextAccessor = httpContextAccessor;
             this.diaryRepository = diaryRepository;
+            this.foodService = foodService;
         }
 
+        [HttpGet]
         public async Task<IActionResult> Index()
         {
-            var foods = await foodRepository.GetAll();
+            var foods = await foodRepository.GetAllAsync();
 
             return View(foods);
         }
 
+        [HttpGet]
         public async Task<IActionResult> GetFoodsPartial()
         {
             var appUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             var foods = await foodRepository.GetAllFoodsForUser(appUserId);
             return PartialView("_FoodsPartial", foods);
-        }
-
-        public IActionResult Detail(int id)
-        {
-            var food = foodRepository.GetById(id);
-
-            return View(food);
         }
 
         [HttpGet]
@@ -78,6 +77,7 @@ namespace FoodLogger.Controllers
             };
 
             foodRepository.Create(food);
+
             return RedirectToAction("Index", "Dashboard");
         }
 
@@ -110,12 +110,14 @@ namespace FoodLogger.Controllers
                 return View("Edit", foodVM);
             }
 
+            var appUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
             double caloriesPer100Grams = (foodVM.Calories / foodVM.Grams) * 100;
             double proteinPer100Grams = (foodVM.Protein / foodVM.Grams) * 100;
             double carbsPer100Grams = (foodVM.Carbs / foodVM.Grams) * 100;
             double fatPer100Grams = (foodVM.Fat / foodVM.Grams) * 100;
 
-            var food = new  Food
+            var food = new Food
             {
                 Id = foodVM.Id,
                 Name = foodVM.Name,
@@ -124,12 +126,21 @@ namespace FoodLogger.Controllers
                 Carbs = carbsPer100Grams,
                 Protein = proteinPer100Grams,
                 Fat = fatPer100Grams,
-                              
+                AppUserId = appUserId
+
             };
 
             foodRepository.Update(food);
 
             return RedirectToAction("Index", "Dashboard");
+        }
+
+        [HttpGet]
+        public IActionResult Detail(int id)
+        {
+            var food = foodRepository.GetById(id);
+
+            return View(food);
         }
 
         [HttpPost]
@@ -138,7 +149,7 @@ namespace FoodLogger.Controllers
             var food = foodRepository.GetById(id);
             if (food == null) { return View("Error"); }
 
-            if (HasAssociatedDiaryEntries(food))
+            if (foodService.HasAssociatedDiaryEntries(food))
             {
                 TempData["ErrorMessage"] = "Cannot delete this food. It is associated with diary entry.";
                 return RedirectToAction("Index", "Dashboard");
@@ -147,12 +158,5 @@ namespace FoodLogger.Controllers
             foodRepository.Delete(food);
             return RedirectToAction("Index", "Dashboard");
         }
-
-        private bool HasAssociatedDiaryEntries(Food food)
-        {
-           
-            return diaryRepository.GetAllEntriesByFoodId(food.Id).Any();
-        }
-
     }
 }
