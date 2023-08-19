@@ -47,13 +47,24 @@ namespace FoodLogger.Controllers
         {
             if (ModelState.IsValid)
             {
+                var food = foodRepository.GetById(entryViewModel.SelectedFoodId.Value);
+
+                var calories = (food.Calories / 100) * entryViewModel.Quantity;
+                var protein = (food.Protein / 100) * entryViewModel.Quantity;
+                var carbs = (food.Carbs / 100) * entryViewModel.Quantity;
+                var fat = (food.Fat / 100) * entryViewModel.Quantity;
+
                 var newDiaryEntry = new DiaryEntry
                 {
                     DiaryId = entryViewModel.DiaryId,
                     FoodId = entryViewModel.SelectedFoodId,
                     Quantity = entryViewModel.Quantity,
+                    Calories = calories,
+                    Protein = protein,
+                    Carbs = carbs,
+                    Fats = fat,
                 };
-
+            
                 diaryRepository.AddDiaryEntry(newDiaryEntry);
 
                 return RedirectToAction("Index", "Diary", new { selectedDate = entryViewModel.DiaryDate });
@@ -104,6 +115,7 @@ namespace FoodLogger.Controllers
             return View(entryViewModel);
         }
 
+        [HttpGet]
         public IActionResult Edit(int id)
         {
             var entry = diaryRepository.GetDiaryEntryById(id);
@@ -152,8 +164,18 @@ namespace FoodLogger.Controllers
             {
                 return NotFound();
             }
+            
+            var calories = (entry.Calories / entry.Quantity) * model.Quantity;
+            var protein = (entry.Protein / entry.Quantity) * model.Quantity;
+            var carbs = (entry.Carbs / entry.Quantity) * model.Quantity;
+            var fat = (entry.Fats / entry.Quantity) * model.Quantity;
 
             entry.Quantity = model.Quantity;
+            entry.Calories = calories;
+            entry.Protein = protein;
+            entry.Carbs = carbs;
+            entry.Fats = fat;
+
             diaryRepository.Update(entry);
 
             return RedirectToAction("Index", "Diary");

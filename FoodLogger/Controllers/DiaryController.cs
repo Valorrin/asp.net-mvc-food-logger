@@ -31,10 +31,10 @@ public class DiaryController : Controller
 
         var diaryEntries = diaryRepository.GetDiaryEntriesForDate(selectedDate);
 
-        var totalCalories = diaryEntries.Sum(de => de.Food?.Calories ?? de.Recipe?.CalculateCalories ?? 0);
-        var totalProtein = diaryEntries.Sum(de => de.Food?.Protein ?? de.Recipe?.CalculateProtein ?? 0);
-        var totalCarbs = diaryEntries.Sum(de => de.Food?.Carbs ?? de.Recipe?.CalculateCarbs ?? 0);
-        var totalFats = diaryEntries.Sum(de => de.Food?.Fat ?? de.Recipe?.CalculateFats ?? 0);
+        var totalCalories = diaryEntries.Sum(de => de.Calories);
+        var totalProtein = diaryEntries.Sum(de => de.Protein);
+        var totalCarbs = diaryEntries.Sum(de => de.Carbs);
+        var totalFats = diaryEntries.Sum(de => de.Fats);
 
         var diaryViewModel = new DiaryViewModel
         {
@@ -63,15 +63,24 @@ public class DiaryController : Controller
     }
 
     [HttpGet]
-    public IActionResult LoadDiary(DateTime? selectedDate)
+    public IActionResult LoadDiary(DateTime selectedDate)
     {
-        if (selectedDate == null)
+        var appUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+        var existingDiary = diaryRepository.GetDiaryByDate(appUserId, selectedDate);
+
+        if (existingDiary == null)
         {
-            selectedDate = DateTime.Today;
+            var newDiary = new Diary
+            {
+                AppUserId = appUserId,
+                Date = selectedDate
+            };
+            diaryRepository.AddDiary(newDiary);
         }
 
-        var diaryViewModel = GetDiaryViewModel(selectedDate.Value);
+        var diaryViewModel = GetDiaryViewModel(selectedDate);
 
         return PartialView("_DiaryEntriesPartial", diaryViewModel);
     }
+
 }

@@ -1,6 +1,7 @@
 ﻿using FoodLogger.Data.Models;
 using FoodLogger.Interfaces;
 using FoodLogger.Models;
+using FoodLogger.Repository;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -10,13 +11,16 @@ namespace FoodLogger.Controllers
     {
         private readonly IRecipeRepository recipeRepository;
         private readonly IFoodRepository foodRepository;
+        private readonly IDiaryRepository diaryRepository;
         private readonly IHttpContextAccessor httpContextAccessor;
 
-        public RecipeController(IRecipeRepository recipeRepository, IHttpContextAccessor httpContextAccessor, IFoodRepository foodRepository)
+        public RecipeController(IRecipeRepository recipeRepository, IHttpContextAccessor httpContextAccessor, 
+            IFoodRepository foodRepository, IDiaryRepository diaryRepository)
         {
             this.recipeRepository = recipeRepository;
             this.httpContextAccessor = httpContextAccessor;
             this.foodRepository = foodRepository;
+            this.diaryRepository = diaryRepository;
         }
 
         public async Task<IActionResult> Index()
@@ -81,8 +85,19 @@ namespace FoodLogger.Controllers
             var recipe = await recipeRepository.GetById(id);
             if (recipe == null) { return View("Error"); }
 
+            if (HasAssociatedDiaryEntries(recipe))
+            {
+                TempData["ErrorMessage"] = "Cannot delete this food. It is associated with diary entries.";
+                return RedirectToAction("Index", "Dashboard");
+            }
+
             recipeRepository.Delete(recipe);
             return RedirectToAction("Index", "Dashboard");
+        }
+        private bool HasAssociatedDiaryEntries(Recipe recipe)
+        {
+
+            return diaryRepository.GetAllEntriesByRecipeId(recipe.Id).Any();
         }
     }
 }

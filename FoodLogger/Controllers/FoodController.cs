@@ -2,6 +2,7 @@
 using FoodLogger.Data.Models;
 using FoodLogger.Interfaces;
 using FoodLogger.Models;
+using FoodLogger.Repository;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FoodLogger.Controllers
@@ -9,12 +10,14 @@ namespace FoodLogger.Controllers
     public class FoodController : Controller
     {
         private readonly IFoodRepository foodRepository;
+        private readonly IDiaryRepository diaryRepository;
         private readonly IHttpContextAccessor httpContextAccessor;
 
-        public FoodController(IFoodRepository foodRepository, IHttpContextAccessor httpContextAccessor)
+        public FoodController(IFoodRepository foodRepository, IHttpContextAccessor httpContextAccessor, IDiaryRepository diaryRepository)
         {
             this.foodRepository = foodRepository;
             this.httpContextAccessor = httpContextAccessor;
+            this.diaryRepository = diaryRepository;
         }
 
         public async Task<IActionResult> Index()
@@ -131,8 +134,20 @@ namespace FoodLogger.Controllers
             var food = foodRepository.GetById(id);
             if (food == null) { return View("Error"); }
 
+            if (HasAssociatedDiaryEntries(food))
+            {
+                TempData["ErrorMessage"] = "Cannot delete this food. It is associated with diary entries.";
+                return RedirectToAction("Index", "Dashboard");
+            }
+
             foodRepository.Delete(food);
             return RedirectToAction("Index", "Dashboard");
+        }
+
+        private bool HasAssociatedDiaryEntries(Food food)
+        {
+           
+            return diaryRepository.GetAllEntriesByFoodId(food.Id).Any();
         }
 
     }

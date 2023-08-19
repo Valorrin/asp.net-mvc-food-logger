@@ -1,5 +1,9 @@
 ﻿@model IEnumerable<Food>
 
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger">@TempData["ErrorMessage"]</div>
+}
 
 <a class="btn btn-primary" asp-area="" asp-controller="Food" asp-action="Create">Create Food</a>
 <table class="table table-bordered">

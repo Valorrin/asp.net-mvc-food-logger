@@ -13,5 +13,7 @@ namespace FoodLogger.Interfaces
 
         public bool Update(DiaryEntry entry);
         public bool DeleteEntry(DiaryEntry entry);
+        List<DiaryEntry> GetAllEntriesByFoodId(int id);
+        List<DiaryEntry> GetAllEntriesByRecipeId(int id);
     }
 }

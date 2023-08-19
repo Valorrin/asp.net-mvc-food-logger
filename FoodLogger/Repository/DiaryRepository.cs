@@ -70,5 +70,24 @@ namespace FoodLogger.Repository
             return Save();
         }
 
+        public List<DiaryEntry> GetAllEntriesByFoodId(int id)
+        {
+            var diaryEntries = context.DiaryEntries
+                .Include(d => d.Food)
+                .Where(f=>f.FoodId == id)
+                .ToList();
+
+            return diaryEntries;
+        }
+
+        public List<DiaryEntry> GetAllEntriesByRecipeId(int id)
+        {
+            var diaryEntries = context.DiaryEntries
+                .Include(d => d.Recipe)
+                .Where(f => f.RecipeId == id)
+                .ToList();
+
+            return diaryEntries;
+        }
     }
 }

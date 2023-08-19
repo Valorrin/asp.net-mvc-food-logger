@@ -15,66 +15,12 @@
     @foreach (var entry in Model.DiaryEntries)
     {
         <tr>
-            <td>
-                @if (entry.FoodId != null)
-                {
-                    @entry.Food.Name
-                }
-                @if (entry.RecipeId != null)
-                {
-                    @entry.Recipe.Name
-                }
-            </td>
-            <td>
-                @if (entry.FoodId != null)
-                {
-                    @entry.Food.Grams
-               }
-                @if (entry.RecipeId != null)
-                {
-                    @entry.Recipe.CalculateGrams
-               }
-            </td>
-            <td>
-                @if (entry.FoodId != null)
-                {
-                    @entry.Food.Calories.ToString("0.00")
-               }
-                @if (entry.RecipeId != null)
-                {
-                    @entry.Recipe.CalculateCalories.ToString("0.00")
-               }
-            </td>
-            <td>
-                @if (entry.FoodId != null)
-                {
-                    @entry.Food.Protein
-               }
-                @if (entry.RecipeId != null)
-                {
-                    @entry.Recipe.CalculateProtein
-               }
-            </td>
-            <td>
-                @if (entry.FoodId != null)
-                {
-                    @entry.Food.Carbs
-               }
-                @if (entry.RecipeId != null)
-                {
-                    @entry.Recipe.CalculateCarbs
-               }
-            </td>
-            <td>
-                @if (entry.FoodId != null)
-                {
-                    @entry.Food.Fat
-               }
-                @if (entry.RecipeId != null)
-                {
-                    @entry.Recipe.CalculateFats
-               }
-            </td>
+            <td>@entry.Food.Name</td>
+            <td>@entry.Quantity</td>
+            <td>@entry.Calories.ToString("0.00")</td>
+            <td>@entry.Protein.ToString("0.00")</td>
+            <td>@entry.Carbs.ToString("0.00")</td>
+            <td>@entry.Fats.ToString("0.00")</td>
             <td>
                 <div class="button-group">
                     <a href="@Url.Action("Edit", "DiaryEntry", new { id = entry.Id })" class="btn btn-primary btn-sm">Edit</a>
@@ -89,10 +35,10 @@
     <tr class="total-row">
         <td colspan="1"><strong>Total Nutrition for the Day</strong></td>
         <td></td>
-        <td><strong>@Model.TotalCalories kcal</strong></td>
-        <td><strong>@Model.TotalProtein g</strong></td>
-        <td><strong>@Model.TotalCarbs g</strong></td>
-        <td><strong>@Model.TotalFats g</strong></td>
+        <td><strong>@Model.TotalCalories.ToString("0.00") kcal</strong></td>
+        <td><strong>@Model.TotalProtein.ToString("0.00") g</strong></td>
+        <td><strong>@Model.TotalCarbs.ToString("0.00") g</strong></td>
+        <td><strong>@Model.TotalFats.ToString("0.00") g</strong></td>
         <td></td>
     </tr>
 </table>
