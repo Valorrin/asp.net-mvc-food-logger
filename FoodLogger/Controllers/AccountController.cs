@@ -42,7 +42,7 @@ namespace FoodLogger.Controllers
                     var result = await signInManager.PasswordSignInAsync(user, loginViewModel.Password, false, false);
                     if (result.Succeeded) 
                     {
-                        return RedirectToAction("Index", "Food");
+                        return RedirectToAction("Index", "Diary");
                     }
                 }
                 //Incorect Password
@@ -85,14 +85,14 @@ namespace FoodLogger.Controllers
 
             if (newUserResponse.Succeeded) await userManager.AddToRoleAsync(newUser, UserRoles.User);
 
-            return RedirectToAction("Index", "Food");
+            return RedirectToAction("Index", "Diary");
         }
 
         [HttpPost]
         public async Task<IActionResult> Logout()
         {
             await signInManager.SignOutAsync();
-            return RedirectToAction("Index", "Food");
+            return RedirectToAction("Index", "Home");
         }
 
     }

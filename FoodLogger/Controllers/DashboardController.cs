@@ -1,7 +1,9 @@
 ﻿using FoodLogger.Interfaces;
 using FoodLogger.Models;
 using FoodLogger.Repository;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace FoodLogger.Controllers
 {
@@ -13,10 +15,14 @@ namespace FoodLogger.Controllers
             this.dashboardRepository = dashboardRepository;
         }
 
+        [HttpGet]
+        [Authorize]
         public async Task<IActionResult> Index()
         {
-            var userFoods = await dashboardRepository.GetAllUserFoods();
-            var userRecipes = await dashboardRepository.GetAllUserRecipes();
+            var appUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            var userFoods = await dashboardRepository.GetAllUserFoods(appUserId);
+            var userRecipes = await dashboardRepository.GetAllUserRecipes(appUserId);
 
             var dashboardViewModel = new DashboardViewModel()
             {

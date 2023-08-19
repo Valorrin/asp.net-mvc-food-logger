@@ -15,6 +15,7 @@ namespace FoodLogger.Interfaces
 
         public IEnumerable<Food> GetAllFoods();
 
+        public Task<IEnumerable<Food>>GetAllFoodsForUser(string appUserId);
 
         public  Food GetById(int id);
 

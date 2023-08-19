@@ -3,10 +3,13 @@ using FoodLogger.Data.Models;
 using FoodLogger.Interfaces;
 using FoodLogger.Models;
 using FoodLogger.Repository;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace FoodLogger.Controllers
 {
+    [Authorize]
     public class FoodController : Controller
     {
         private readonly IFoodRepository foodRepository;
@@ -29,7 +32,8 @@ namespace FoodLogger.Controllers
 
         public async Task<IActionResult> GetFoodsPartial()
         {
-            var foods = await foodRepository.GetAll();
+            var appUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var foods = await foodRepository.GetAllFoodsForUser(appUserId);
             return PartialView("_FoodsPartial", foods);
         }
 
@@ -136,7 +140,7 @@ namespace FoodLogger.Controllers
 
             if (HasAssociatedDiaryEntries(food))
             {
-                TempData["ErrorMessage"] = "Cannot delete this food. It is associated with diary entries.";
+                TempData["ErrorMessage"] = "Cannot delete this food. It is associated with diary entry.";
                 return RedirectToAction("Index", "Dashboard");
             }
 

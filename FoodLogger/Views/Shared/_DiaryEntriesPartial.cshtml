@@ -15,12 +15,19 @@
     @foreach (var entry in Model.DiaryEntries)
     {
         <tr>
-            <td>@entry.Food.Name</td>
+            @if (entry.FoodId != null)
+            {
+                <td>@entry.Food.Name</td>
+            }
+            @if (entry.RecipeId != null)
+            {
+                <td>@entry.Recipe.Name</td>
+            }
             <td>@entry.Quantity</td>
-            <td>@entry.Calories.ToString("0.00")</td>
-            <td>@entry.Protein.ToString("0.00")</td>
-            <td>@entry.Carbs.ToString("0.00")</td>
-            <td>@entry.Fats.ToString("0.00")</td>
+            <td>@entry.Calories.ToString("0.00") kcal</td>
+            <td>@entry.Protein.ToString("0.00") g</td>
+            <td>@entry.Carbs.ToString("0.00") g</td>
+            <td>@entry.Fats.ToString("0.00") g</td>
             <td>
                 <div class="button-group">
                     <a href="@Url.Action("Edit", "DiaryEntry", new { id = entry.Id })" class="btn btn-primary btn-sm">Edit</a>

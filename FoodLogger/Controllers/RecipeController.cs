@@ -2,11 +2,15 @@
 using FoodLogger.Interfaces;
 using FoodLogger.Models;
 using FoodLogger.Repository;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace FoodLogger.Controllers
 {
+
+    [Authorize]
     public class RecipeController : Controller
     {
         private readonly IRecipeRepository recipeRepository;
@@ -31,20 +35,21 @@ namespace FoodLogger.Controllers
 
         public async Task<IActionResult> GetRecipesPartial()
         {
-            var recipes = await recipeRepository.GetAll();
+            var appUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var recipes = await recipeRepository.GetAllRecipesForUser(appUserId);
             return PartialView("_RecipesPartial", recipes);
         }
 
         [HttpGet]
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
-            var availableFoods = foodRepository.GetAllFoods().ToList();
             var curUserId = httpContextAccessor.HttpContext.User.GetUserId();
+            var availableFoods = await foodRepository.GetAllFoodsForUser(curUserId);
 
             var createRecipeViewModel = new CreateRecipeViewModel
             {
                 AppUserId = curUserId,
-                AvailableFoods = availableFoods,
+                AvailableFoods = (List<Food>)availableFoods,
                 SelectedFoodIds = new List<int>()
                 
             };
@@ -76,6 +81,9 @@ namespace FoodLogger.Controllers
             }
 
             recipeRepository.Create(newRecipe);
+
+            TempData["RecipeAdded"] = true;
+
             return RedirectToAction("Index", "Dashboard", new { recipeAdded = true });
         }
 
@@ -87,7 +95,7 @@ namespace FoodLogger.Controllers
 
             if (HasAssociatedDiaryEntries(recipe))
             {
-                TempData["ErrorMessage"] = "Cannot delete this food. It is associated with diary entries.";
+                TempData["ErrorMessage"] = "Cannot delete this recipe. It is associated with diary entry.";
                 return RedirectToAction("Index", "Dashboard");
             }
 

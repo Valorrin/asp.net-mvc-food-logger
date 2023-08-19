@@ -37,7 +37,7 @@ namespace FoodLogger.Repository
 
         public async Task<Recipe> GetById(int id)
         {
-            return await context.Recipes.FirstOrDefaultAsync(x => x.Id == id);
+            return await context.Recipes.Include(r=>r.Foods).FirstOrDefaultAsync(x => x.Id == id);
         }
 
         public bool Update(Recipe recipe)
@@ -52,5 +52,9 @@ namespace FoodLogger.Repository
             return saved > 0 ? true : false;
         }
 
+        public async Task<IEnumerable<Recipe>> GetAllRecipesForUser(string appUserId)
+        {
+            return await context.Recipes.Where(r=>r.AppUserId == appUserId).ToListAsync();
+        }
     }
 }

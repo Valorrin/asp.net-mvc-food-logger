@@ -52,5 +52,10 @@ namespace FoodLogger.Repository
             var saved = context.SaveChanges();
             return saved > 0 ? true : false;
         }
+
+        public async Task<IEnumerable<Food>> GetAllFoodsForUser(string appUserId)
+        {
+            return await context.Foods.Where(f => f.AppUserId == appUserId).ToListAsync();
+        }
     }
 }

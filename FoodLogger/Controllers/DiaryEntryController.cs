@@ -1,6 +1,7 @@
 ﻿using FoodLogger.Data.Models;
 using FoodLogger.Interfaces;
 using FoodLogger.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Globalization;
@@ -8,6 +9,8 @@ using System.Security.Claims;
 
 namespace FoodLogger.Controllers
 {
+
+    [Authorize]
     public class DiaryEntryController : Controller
     {
         private readonly IFoodRepository foodRepository;
@@ -25,16 +28,16 @@ namespace FoodLogger.Controllers
         }
 
         [HttpGet]
-        public IActionResult AddFoodEntry(DateTime selectedDate)
+        public async Task<IActionResult> AddFoodEntry(DateTime selectedDate)
         {
             var userId = httpContextAccessor.HttpContext.User.GetUserId();
             var diaryId = diaryRepository.GetDiaryId(userId, selectedDate.Date);
-            var availableFoods = foodRepository.GetAllFoods();
+            var availableFoods = await foodRepository.GetAllFoodsForUser(userId);
 
             var entryViewModel = new DiaryEntryViewModel
             {
                 DiaryDate = selectedDate,
-                AvailableFoods = availableFoods.ToList(),
+                AvailableFoods = (List<Food>)availableFoods,
                 AppUserId = userId,
                 DiaryId = diaryId
             };
@@ -75,18 +78,16 @@ namespace FoodLogger.Controllers
         }
 
         [HttpGet]
-        public IActionResult AddRecipeEntry(DateTime selectedDate)
+        public async Task<IActionResult> AddRecipeEntry(DateTime selectedDate)
         {
-          //  DateTime.TryParseExact(selectedDate, "yyyy-MM-dd", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime diaryDate);
-
             var userId = httpContextAccessor.HttpContext.User.GetUserId();
             var diaryId = diaryRepository.GetDiaryId(userId, selectedDate.Date);
-            var availableRecipes = recipeRepository.GetAllRecipes();
+            var availableRecipes = await recipeRepository.GetAllRecipesForUser(userId);
 
             var entryViewModel = new DiaryEntryViewModel
             {
                 DiaryDate = selectedDate,
-                AvailableRecipes = availableRecipes.ToList(),
+                AvailableRecipes = (List<Recipe>)availableRecipes,
                 AppUserId = userId,
                 DiaryId = diaryId
             };

@@ -8,26 +8,22 @@ namespace FoodLogger.Repository
     public class DashboardRepository : IDashboardRepository
     {
         private ApplicationDbContext context;
-        private IHttpContextAccessor httpContextAccessor;
 
-        public DashboardRepository(ApplicationDbContext context, IHttpContextAccessor httpContextAccessor)
+        public DashboardRepository(ApplicationDbContext context)
         {
             this.context = context;
-            this.httpContextAccessor = httpContextAccessor;
         }
 
-        public async Task<List<Food>> GetAllUserFoods()
+        public async Task<List<Food>> GetAllUserFoods(string curUserId)
         {
-            var curUser = httpContextAccessor.HttpContext?.User.GetUserId();
-            var userFoods = context.Foods.Where(f => f.AppUser.Id == curUser.ToString());
+            var userFoods = context.Foods.Where(f => f.AppUser.Id == curUserId);      
             
             return userFoods.ToList();
         }
 
-        public async Task<List<Recipe>> GetAllUserRecipes()
+        public async Task<List<Recipe>> GetAllUserRecipes(string curUserId)
         {
-            var curUser = httpContextAccessor.HttpContext?.User.GetUserId();
-            var userRecipes = context.Recipes.Where(r => r.AppUser.Id == curUser.ToString());
+            var userRecipes = context.Recipes.Where(r => r.AppUser.Id == curUserId);
 
             return userRecipes.ToList();
         }

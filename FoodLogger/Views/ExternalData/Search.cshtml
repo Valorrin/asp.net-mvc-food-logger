@@ -17,7 +17,10 @@
                         <th scope="col">Protein</th>
                         <th scope="col">Carbs</th>
                         <th scope="col">Fat</th>
-                        <th scope="col">Actions</th>
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <th scope="col">Actions</th>
+                        }
                     </tr>
                 </thead>
                 @{
@@ -33,7 +36,9 @@
                             <td>@food.Protein</td>
                             <td>@food.Carbs</td>
                             <td>@food.Fat</td>
-                            <td>
+                            @if (User.Identity.IsAuthenticated)
+                            {
+                             <td>
                                 <form asp-controller="ExternalData" asp-action="Create" method="post">
                                     <input type="hidden" name="FoodToAdd.Name" value="@food.Name" />
                                     <input type="hidden" name="FoodToAdd.Calories" value="@food.Calories" />
@@ -43,6 +48,8 @@
                                     <button type="submit" class="btn btn-success btn-sm">Add</button>
                                 </form>
                             </td>
+                            }
+
                         </tr>
                     </tbody>
                 }

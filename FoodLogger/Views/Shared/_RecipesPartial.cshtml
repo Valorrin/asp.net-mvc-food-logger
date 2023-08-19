@@ -26,12 +26,11 @@
                 <td>@recipe.Name</td>
                 <td>@recipe.CalculateCalories kcal</td>
                 <td>
-                    <a class="btn btn-info btn-sm" asp-controller="Food" asp-action="Detail" asp-route-id="@recipe.Id"><i class="far fa-eye"></i> Detail</a>
+                    <a class="btn btn-info btn-sm" asp-controller="Recipe" asp-action="Detail" asp-route-id="@recipe.Id"><i class="far fa-eye"></i> Detail</a>
                     @if (User.Identity.IsAuthenticated)
                     {
-                        <a class="btn btn-success btn-sm" asp-controller="Food" asp-action="Edit" asp-route-id="@recipe.Id"><i class="fas fa-edit"></i> Edit</a>
-                        <a class="btn btn-danger btn-sm" asp-controller="Food" asp-action="Delete" asp-route-id="@recipe.Id"><i class="far fa-trash-alt"></i> Delete</a>
-                        <form asp-controller="Recipe" asp-action="Delete" asp-route-id="@recipe.Id" onsubmit="return confirm('Are you sure you want to delete this entry?')">
+                        <a class="btn btn-success btn-sm" asp-controller="Recipe" asp-action="Edit" asp-route-id="@recipe.Id"><i class="fas fa-edit"></i> Edit</a>
+                        <form asp-controller="Recipe" asp-action="Delete" asp-route-id="@recipe.Id" onsubmit="return confirm('Are you sure you want to delete this entry?')" style="display: inline;">
                             <button type="submit" class="btn btn-danger btn-sm"><i class="far fa-trash-alt"></i> Delete</button>
                         </form>
                     }

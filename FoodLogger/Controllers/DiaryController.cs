@@ -1,9 +1,11 @@
 ﻿using FoodLogger.Data.Models;
 using FoodLogger.Interfaces;
 using FoodLogger.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 
+[Authorize]
 public class DiaryController : Controller
 {
     private readonly IDiaryRepository diaryRepository;
@@ -29,7 +31,7 @@ public class DiaryController : Controller
             existingDiary = newDiary;
         }
 
-        var diaryEntries = diaryRepository.GetDiaryEntriesForDate(selectedDate);
+        var diaryEntries = diaryRepository.GetDiaryEntriesForDate(selectedDate, appUserId);
 
         var totalCalories = diaryEntries.Sum(de => de.Calories);
         var totalProtein = diaryEntries.Sum(de => de.Protein);
@@ -50,6 +52,7 @@ public class DiaryController : Controller
         return diaryViewModel;
     }
 
+    [HttpGet]
     public IActionResult Index(DateTime? selectedDate)
     {
         if (selectedDate == null)

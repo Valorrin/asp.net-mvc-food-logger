@@ -23,13 +23,12 @@
             var urlParams = new URLSearchParams(window.location.search);
             var recipeAdded = urlParams.get('recipeAdded');
 
-            if (recipeAdded === 'true') {
-                loadRecipes(); // Load recipes if a new recipe was just added
+            if (recipeAdded) {
+                loadRecipes();
             } else {
-                loadFoods(); // Load foods by default
+                loadFoods();
             }
 
-            // Handle button clicks
             $("#foodsButton").click(function () {
                 loadFoods();
             });

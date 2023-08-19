@@ -13,7 +13,7 @@ namespace FoodLogger.Interfaces
 
         public Task<IEnumerable<Recipe>> GetAll();
 
-
+        public Task<IEnumerable<Recipe>> GetAllRecipesForUser(string appUserId);
         public Task<Recipe> GetById(int id);
 
         public bool Update(Recipe recipe);

@@ -14,13 +14,13 @@ namespace FoodLogger.Repository
             this.context = context;
         }
 
-        public List<DiaryEntry> GetDiaryEntriesForDate(DateTime? date)
+        public List<DiaryEntry> GetDiaryEntriesForDate(DateTime? date, string userId)
         {
             var diaryEntries = context.DiaryEntries
                 .Include(de => de.Food)
                 .Include(de => de.Recipe)
                     .ThenInclude(r => r.Foods)
-                .Where(de => de.Diary.Date == date)
+                .Where(de => de.Diary.Date == date && de.Diary.AppUserId == userId)
                 .ToList();
 
             return diaryEntries;
