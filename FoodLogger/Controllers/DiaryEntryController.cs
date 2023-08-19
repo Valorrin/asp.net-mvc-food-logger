@@ -134,7 +134,6 @@ namespace FoodLogger.Controllers
                 {
                     Id = id,
                     Quantity = entry.Quantity,
-                   // Name = entry.Food.Name,
                 };
             }
             else
@@ -143,10 +142,8 @@ namespace FoodLogger.Controllers
                 {
                     Id = id,
                     Quantity = entry.Quantity,
-                  //  Name = entry.Recipe.Name,
                 };
             }
-
 
             return View(entryViewModel);
         }

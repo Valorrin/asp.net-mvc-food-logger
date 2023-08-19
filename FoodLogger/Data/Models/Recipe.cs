@@ -22,10 +22,15 @@ namespace FoodLogger.Data.Models
         public string? AppUserId { get; set; }
         public AppUser? AppUser { get; set; }
 
+        [NotMapped]
         public double CalculateGrams => Foods.Sum(food => food.Grams);
+        [NotMapped]
         public double CalculateCalories => Foods.Sum(food => food.Calories);
+        [NotMapped]
         public double CalculateProtein => Foods.Sum(food => food.Protein);
+        [NotMapped]
         public double CalculateCarbs => Foods.Sum(food => food.Carbs);
+        [NotMapped]
         public double CalculateFats => Foods.Sum(food => food.Fat);
 
     }

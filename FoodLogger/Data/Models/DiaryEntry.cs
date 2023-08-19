@@ -1,4 +1,6 @@
-﻿namespace FoodLogger.Data.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace FoodLogger.Data.Models
 {
     public class DiaryEntry
     {
