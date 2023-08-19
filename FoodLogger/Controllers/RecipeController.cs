@@ -74,9 +74,10 @@ namespace FoodLogger.Controllers
             foreach (var foodId in createRecipeViewModel.SelectedFoodIds)
             {
                 var food = foodRepository.GetById(foodId);
-                if (food != null)
+                var ingredient = recipeRepository.CreateIngredient(food);
+                if (ingredient != null)
                 {
-                    newRecipe.Foods.Add(food);
+                    newRecipe.Foods.Add(ingredient);
                 }
             }
 

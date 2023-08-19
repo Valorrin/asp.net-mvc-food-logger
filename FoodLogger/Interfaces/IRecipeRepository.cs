@@ -18,6 +18,7 @@ namespace FoodLogger.Interfaces
 
         public bool Update(Recipe recipe);
 
+        public Ingredient CreateIngredient(Food food);
 
         public bool Save();
     }

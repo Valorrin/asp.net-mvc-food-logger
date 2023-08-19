@@ -23,7 +23,7 @@ namespace FoodLogger.Repository
 
         public async Task<List<Recipe>> GetAllUserRecipes(string curUserId)
         {
-            var userRecipes = context.Recipes.Where(r => r.AppUser.Id == curUserId);
+            var userRecipes = context.Recipes.Include(r => r.Foods).Where(r => r.AppUser.Id == curUserId);
 
             return userRecipes.ToList();
         }

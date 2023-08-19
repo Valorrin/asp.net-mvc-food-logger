@@ -16,6 +16,7 @@ namespace FoodLogger.Data
         public DbSet<Recipe> Recipes { get; set; }
         public DbSet<Diary> Diaries { get; set; }
         public DbSet<DiaryEntry> DiaryEntries { get; set; }
+        public DbSet<Ingredient> ingredients { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

@@ -14,7 +14,7 @@ namespace FoodLogger.Data.Models
         [MaxLength(NameMaxLength)]
         public string Name { get; set; }
 
-        public List<Food> Foods { get; set; } = new List<Food>();
+        public ICollection<Ingredient> Foods { get; set; } = new List<Ingredient>();
 
         public ICollection<DiaryEntry> DiaryEntries { get; set; }
 

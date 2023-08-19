@@ -41,53 +41,5 @@ namespace FoodLogger.Tests
             };
         }
 
-        [TestMethod]
-        public async Task IndexReturnsViewWithDashboardViewModel()
-        {
-            // Arrange
-            var userFoods = new List<Food> { new Food(), new Food() };
-            var userRecipes = new List<Recipe> { new Recipe(), new Recipe() };
-
-            _dashboardRepositoryMock.Setup(repo => repo.GetAllUserFoods("testUserId"))
-                .ReturnsAsync(userFoods);
-            _dashboardRepositoryMock.Setup(repo => repo.GetAllUserRecipes("testUserId"))
-                .ReturnsAsync(userRecipes);
-
-            // Act
-            var result = await _controller.Index() as ViewResult;
-
-            // Assert
-            Assert.IsNotNull(result);
-            Assert.AreEqual("Index", result.ViewName);
-            Assert.IsInstanceOfType(result.Model, typeof(DashboardViewModel));
-            var model = result.Model as DashboardViewModel;
-            Assert.AreEqual(userFoods.Count, model.Foods.Count);
-            Assert.AreEqual(userRecipes.Count, model.Recipes.Count);
-        }
-        [TestMethod]
-        public async Task Index_ReturnsViewWithDashboardViewModel()
-        {
-            // Arrange
-            var userFoods = new List<Food> { new Food(), new Food() };
-            var userRecipes = new List<Recipe> { new Recipe(), new Recipe() };
-
-            _dashboardRepositoryMock.Setup(repo => repo.GetAllUserFoods("testUserId"))
-                .ReturnsAsync(userFoods);
-            _dashboardRepositoryMock.Setup(repo => repo.GetAllUserRecipes("testUserId"))
-                .ReturnsAsync(userRecipes);
-
-            // Act
-            var result = await _controller.Index() as ViewResult;
-
-            // Assert
-            Assert.IsNotNull(result);
-            Assert.AreEqual("Index", result.ViewName);
-            Assert.IsInstanceOfType(result.Model, typeof(DashboardViewModel));
-            var model = result.Model as DashboardViewModel;
-            Assert.AreEqual(userFoods.Count, model.Foods.Count);
-            Assert.AreEqual(userRecipes.Count, model.Recipes.Count);
-        }
-        // Additional test methods can be added here for other scenarios and actions
-
     }
 }

@@ -46,6 +46,20 @@ namespace FoodLogger.Repository
             return Save();
         }
 
+        public Ingredient CreateIngredient(Food food)
+        {
+            var newIngredient = new Ingredient
+            {
+                Name = food.Name,
+                Calories = food.Calories,
+                Grams = food.Grams,
+                Protein = food.Protein,
+                Carbs = food.Carbs,
+                Fat = food.Fat,
+            };
+            return newIngredient;
+        }
+
         public bool Save()
         {
             var saved = context.SaveChanges();
@@ -56,5 +70,7 @@ namespace FoodLogger.Repository
         {
             return await context.Recipes.Where(r=>r.AppUserId == appUserId).ToListAsync();
         }
+
+
     }
 }
