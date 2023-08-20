@@ -14,7 +14,7 @@ namespace FoodLogger.Services
 
         public bool HasAssociatedDiaryEntries(Recipe recipe)
         {
-            return diaryRepository.GetAllEntriesByFoodId(recipe.Id).Any();
+            return diaryRepository.GetAllEntriesByRecipeId(recipe.Id).Any();
         }
     }
 }

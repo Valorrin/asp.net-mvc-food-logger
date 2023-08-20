@@ -150,9 +150,9 @@ namespace FoodLogger.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> Delete(int id)
+        public ActionResult Delete(int id)
         {
-            var recipe = await recipeRepository.GetByIdAsync(id);
+            var recipe = recipeRepository.GetById(id);
 
             if (recipe == null) { return View("Error"); }
 

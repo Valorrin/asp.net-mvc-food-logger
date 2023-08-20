@@ -18,7 +18,7 @@ namespace FoodLogger.Controllers
         private readonly IFoodService foodService;
         private readonly IHttpContextAccessor httpContextAccessor;
 
-        public FoodController(IFoodRepository foodRepository, IHttpContextAccessor httpContextAccessor, 
+        public FoodController(IFoodRepository foodRepository, IHttpContextAccessor httpContextAccessor,
             IDiaryRepository diaryRepository, IFoodService foodService)
         {
             this.foodRepository = foodRepository;
@@ -82,7 +82,7 @@ namespace FoodLogger.Controllers
         }
 
         [HttpGet]
-        public IActionResult Edit(int id) 
+        public IActionResult Edit(int id)
         {
             var food = foodRepository.GetById(id);
             if (food == null) { return View("Error"); }
@@ -144,7 +144,7 @@ namespace FoodLogger.Controllers
         }
 
         [HttpPost]
-        public ActionResult Delete(int id) 
+        public ActionResult Delete(int id)
         {
             var food = foodRepository.GetById(id);
             if (food == null) { return View("Error"); }

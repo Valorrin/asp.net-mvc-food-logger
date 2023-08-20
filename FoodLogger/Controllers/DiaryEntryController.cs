@@ -107,6 +107,7 @@ namespace FoodLogger.Controllers
                     Quantity = entryViewModel.Quantity,
                 };
 
+                
                 diaryRepository.AddDiaryEntry(newDiaryEntry);
 
                 return RedirectToAction("Index", "Diary", new { selectedDate = entryViewModel.DiaryDate.Date });

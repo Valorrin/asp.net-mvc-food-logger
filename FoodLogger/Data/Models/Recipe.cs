@@ -1,11 +1,17 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 using static FoodLogger.Data.DataConstants;
 
 namespace FoodLogger.Data.Models
 {
     public class Recipe
     {
+        public Recipe()
+        {
+            Foods = new List<Ingredient>();
+        }
+
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
@@ -14,9 +20,10 @@ namespace FoodLogger.Data.Models
         [MaxLength(NameMaxLength)]
         public string Name { get; set; }
 
-        public ICollection<Ingredient> Foods { get; set; } = new List<Ingredient>();
+        [JsonIgnore]
+        public virtual ICollection<Ingredient> Foods { get; set; }
 
-        public ICollection<DiaryEntry> DiaryEntries { get; set; }
+        public virtual ICollection<DiaryEntry> DiaryEntries { get; set; }
 
         [ForeignKey("AppUser")]
         public string? AppUserId { get; set; }

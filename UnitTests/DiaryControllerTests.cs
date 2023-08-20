@@ -26,7 +26,7 @@ namespace FoodLogger.Tests
 
             var claims = new List<Claim>
             {
-                new Claim(ClaimTypes.NameIdentifier, "testUserId") // Replace with the actual user ID
+                new Claim(ClaimTypes.NameIdentifier, "testUserId") 
             };
 
             var userPrincipal = new ClaimsPrincipal(new ClaimsIdentity(claims, "TestAuthentication"));

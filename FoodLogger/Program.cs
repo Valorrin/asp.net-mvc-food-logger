@@ -18,7 +18,7 @@ builder.Services.AddScoped<IDashboardRepository, DashboardRepository>();
 builder.Services.AddScoped<IDiaryRepository, DiaryRepository>();
 builder.Services.AddScoped<IStatisticsRepository, StatisticsRepository>();
 builder.Services.AddScoped<IDiaryService, DiaryService>();
-builder.Services.AddScoped<IFoodService, FoodService >();
+builder.Services.AddScoped<IFoodService, FoodService>();
 builder.Services.AddScoped<IRecipeService, RecipeService>();
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
 {

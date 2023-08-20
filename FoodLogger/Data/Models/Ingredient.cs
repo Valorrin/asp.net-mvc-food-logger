@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 using static FoodLogger.Data.DataConstants;
 
 namespace FoodLogger.Data.Models
@@ -29,6 +30,8 @@ namespace FoodLogger.Data.Models
 
         [Required]
         public int RecipeId { get; set; }
+
+        [JsonIgnore]
         public Recipe Recipe { get; set; }
 
 

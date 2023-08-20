@@ -3,7 +3,7 @@
 @model FoodViewModel 
 
 <form method="post" asp-action="Create">
-    <input type="hidden" id="AppUserId" name="AppUserID" asp-for="AppUserId"></input>
+    <input type="hidden" id="AppUserId" name="AppUserID" asp-for="AppUserId">
     <div class="mb-3">
         <label asp-for="Name">Name</label>
         <input asp-for="Name" class="form-control" placeholder="Name">

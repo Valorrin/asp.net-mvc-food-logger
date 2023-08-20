@@ -1,7 +1,9 @@
 ﻿using FoodLogger.Data.Models;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using System.Reflection.Emit;
+using Microsoft.Extensions.Logging;
 
 namespace FoodLogger.Data
 {
@@ -18,8 +20,12 @@ namespace FoodLogger.Data
         public DbSet<DiaryEntry> DiaryEntries { get; set; }
         public DbSet<Ingredient> ingredients { get; set; }
 
+
+
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
+
             base.OnModelCreating(builder);
         }
     }

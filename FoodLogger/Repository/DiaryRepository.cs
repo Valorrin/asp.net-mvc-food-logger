@@ -70,6 +70,7 @@ namespace FoodLogger.Repository
         {
             var diaryEntries = context.DiaryEntries
                 .Include(d => d.Recipe)
+                   .ThenInclude(recipe => recipe.Foods)
                 .Where(f => f.RecipeId == id)
                 .ToList();
 
@@ -81,7 +82,7 @@ namespace FoodLogger.Repository
             var diaryEntries = context.DiaryEntries
                 .Include(de => de.Food)
                 .Include(de => de.Recipe)
-                    .ThenInclude(r => r.Foods)
+                  .ThenInclude(recipe => recipe.Foods)
                 .Where(de => de.Diary.Date == date && de.Diary.AppUserId == userId)
                 .ToList();
 
